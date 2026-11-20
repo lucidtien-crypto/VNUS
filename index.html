@@ -1,1942 +1,1898 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#FBF9F5">
-<title>Speech to Text Editor</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F7F8FA">
+<title>Voice Translator · VI / EN</title>
 
 <style>
 :root {
-    --bg: #FBF9F5;
-    --card: #FFFFFF;
-    --text: #1F2937;
-    --muted: #64748B;
-    --border: #D9DEE6;
-    --green: #059669;
-    --green-light: #ECFDF5;
-    --red: #DC2626;
-    --blue: #2563EB;
-    --shadow: 0 3px 14px rgba(0,0,0,.05);
+  --bg:#F7F8FA;
+  --card:#FFFFFF;
+  --field:#FBFCFE;
+  --text:#202B3B;
+  --muted:#778397;
+  --border:#E1E7EE;
+  --green:#087F65;
+  --green-bg:#E9F8F1;
+  --blue:#285FB0;
+  --blue-bg:#EDF4FF;
+  --red:#D54B4B;
+  --shadow:0 8px 28px rgba(25,42,68,.045);
 }
 
-body.dark-mode {
-    --bg: #121316;
-    --card: #1E2025;
-    --text: #F3F4F6;
-    --muted: #B3BDCB;
-    --border: #424752;
-    --green-light: #0D2419;
-    --shadow: 0 3px 14px rgba(0,0,0,.3);
-}
-
-* {
-    box-sizing: border-box;
-}
+* { box-sizing:border-box; }
 
 body {
-    margin: 0;
-    padding: 14px 10px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Inter, system-ui, -apple-system,
-                 "Segoe UI", Arial, sans-serif;
+  margin:0;
+  min-height:100svh;
+  padding:
+    max(12px,env(safe-area-inset-top))
+    max(10px,env(safe-area-inset-right))
+    max(24px,env(safe-area-inset-bottom))
+    max(10px,env(safe-area-inset-left));
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Roboto,Arial,sans-serif;
 }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+body.dark {
+  --bg:#13171D;
+  --card:#1D242D;
+  --field:#222B36;
+  --text:#F2F5F9;
+  --muted:#A7B2C2;
+  --border:#3C4755;
+  --green-bg:#153B32;
+  --blue-bg:#1C3554;
+  --shadow:0 8px 28px rgba(0,0,0,.15);
+}
+
+button,textarea { font:inherit; }
+
+button {
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:disabled {
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline:3px solid #67B6E8;
+  outline-offset:2px;
+}
+
+.app {
+  width:100%;
+  max-width:850px;
+  margin:auto;
+  display:grid;
+  gap:12px;
 }
 
 /* HEADER */
 
-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 45px;
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:48px;
 }
 
-.heading {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    min-width: 0;
+.brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
 }
 
-h1 {
-    margin: 0;
-    font-size: clamp(17px, 2.8vw, 24px);
-    font-weight: 700;
-    letter-spacing: -.4px;
+.logo {
+  width:37px;
+  height:37px;
+  border-radius:12px;
+  background:var(--green);
+  color:white;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
 }
 
-.mini {
-    width: 39px;
-    height: 39px;
-    flex-shrink: 0;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 19px;
-    font-weight: 700;
-    touch-action: manipulation;
+.logo svg { width:21px;height:21px; }
+
+.brand h1 {
+  margin:0;
+  font-size:clamp(17px,3.5vw,22px);
+  font-weight:750;
+  letter-spacing:-.6px;
 }
 
-.mini:active {
-    transform: scale(.96);
+.header-actions {
+  display:flex;
+  align-items:center;
+  gap:7px;
 }
 
-.punctuation {
-    font-family: Arial, sans-serif;
-    font-size: 22px;
+.icon-btn {
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  border-radius:11px;
 }
 
-/* STATUS */
-
-.status {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
+.icon-btn svg {
+  width:19px;
+  height:19px;
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    flex-shrink: 0;
-    animation: pulse 2.5s ease-in-out infinite;
+.statusbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:24px;
+  padding:0 3px;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.status-dot.active {
-    background: var(--red);
-    animation-duration: 1.2s;
+.status-left {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
 }
 
-.status-dot.error {
-    background: var(--red);
-    animation: none;
+.dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  flex-shrink:0;
+  background:#17A477;
 }
+
+.dot.listening {
+  background:#E65A5A;
+  animation:pulse 1.3s infinite;
+}
+
+.dot.working {
+  background:#E5A12D;
+  animation:pulse 1.6s infinite;
+}
+
+.dot.error { background:#E65A5A; }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: .45;
-    }
-    50% {
-        opacity: 1;
-    }
+  50% { opacity:.35;transform:scale(.85); }
 }
 
-/* EDITOR */
+/* LANGUAGE PANELS */
 
-.editor {
-    width: 100%;
-    min-height: 300px;
-    padding: 16px;
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    background: var(--card);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 24px;
-    line-height: 1.65;
-    resize: vertical;
-    outline: none;
-    box-shadow: var(--shadow);
-    white-space: pre-wrap;
+.panel {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:11px;
+  box-shadow:var(--shadow);
+  transition:border-color .2s,box-shadow .2s;
 }
 
-.editor:focus {
-    border-color: var(--green);
+.panel.active {
+  border-color:#53B69A;
+  box-shadow:0 0 0 3px rgba(8,127,101,.08);
 }
 
-.editor.recording {
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px rgba(5,150,105,.15);
+.panel.english-active {
+  border-color:#79A3DF;
+  box-shadow:0 0 0 3px rgba(40,95,176,.08);
 }
 
-.editor::placeholder {
-    color: var(--muted);
-    opacity: .8;
+.panel-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:35px;
 }
 
-/* STATISTICS */
-
-.stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    color: var(--muted);
-    font-size: 13px;
-    padding: 0 4px;
+.panel-title {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:17px;
+  font-weight:750;
+  letter-spacing:-.25px;
 }
 
-.font-controls {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.speaker {
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  border:1px solid #B6D9CB;
+  border-radius:11px;
+  background:var(--green-bg);
+  color:var(--green);
+  flex-shrink:0;
 }
 
-.font-controls button {
-    width: 38px;
-    height: 30px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--card);
-    color: var(--text);
-    font-weight: 600;
-    cursor: pointer;
+.speaker svg {
+  width:21px;
+  height:21px;
 }
 
-/* MAIN CONTROLS */
-
-.controls-main {
-    display: grid;
-    grid-template-columns: 54px 46px 46px minmax(0,1fr);
-    gap: 7px;
+.speaker.playing {
+  background:var(--green);
+  border-color:var(--green);
+  color:white;
+  animation:softPulse 1.8s ease-in-out infinite;
 }
 
-.action {
-    min-height: 58px;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    background: var(--card);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 5px;
-    touch-action: manipulation;
+@keyframes softPulse {
+  50% {
+    box-shadow:0 0 0 6px rgba(8,127,101,.12);
+  }
 }
 
-.action:active:not(:disabled) {
-    transform: translateY(1px);
+.panel-note {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:500;
+  white-space:nowrap;
 }
 
-.action:disabled {
-    opacity: .4;
-    cursor: not-allowed;
+.field {
+  display:block;
+  width:100%;
+  min-height:165px;
+  resize:vertical;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--field);
+  color:var(--text);
+  padding:15px;
+  font-size:clamp(20px,4.7vw,25px);
+  font-weight:450;
+  line-height:1.65;
+  outline:none;
+  white-space:pre-wrap;
 }
 
-.btn-speak {
-    font-size: 21px;
+.field:focus {
+  border-color:#6BB89F;
 }
 
-.btn-language {
-    font-size: 25px;
-    padding: 0;
-    background: var(--card);
-    border: 1px solid var(--border);
-    transition: border-color .15s, background .15s;
+.field::placeholder {
+  color:var(--muted);
+  opacity:.65;
 }
 
-.btn-language.selected {
-    border: 2px solid var(--green);
-    background: var(--green-light);
+.field.pending {
+  opacity:.7;
 }
 
-.btn-start {
-    background: var(--green);
-    color: white;
-    border-color: var(--green);
-    font-size: clamp(14px, 2.5vw, 19px);
-    font-weight: 700;
+.panel-footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  min-height:58px;
 }
 
-.btn-start.listening {
-    background: var(--red);
-    border-color: var(--red);
+.tools {
+  display:grid;
+  grid-template-columns:
+    minmax(104px,1.65fr)
+    repeat(3,minmax(56px,1fr));
+  gap:7px;
+  width:100%;
 }
 
-/* EDIT CONTROLS */
-
-.controls-edit {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    gap: 8px;
+.tool-btn {
+  min-height:57px;
+  padding:8px 5px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--card);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  transition:
+    background .15s,
+    transform .15s,
+    border-color .15s;
 }
 
-.edit-button {
-    min-height: 57px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 18px;
+.tool-btn svg {
+  width:19px;
+  height:19px;
 }
 
-.edit-button span {
-    font-size: 12px;
-    font-weight: 600;
+.tool-btn span {
+  font-size:11px;
+  font-weight:650;
+  text-align:center;
 }
 
-.btn-clear {
-    color: var(--red);
+.tool-btn.mic-vi {
+  background:var(--green-bg);
+  color:var(--green);
+  border-color:#A5D3C2;
 }
 
-.btn-copy {
-    color: var(--blue);
+.tool-btn.mic-en {
+  background:var(--blue-bg);
+  color:var(--blue);
+  border-color:#ADC7E9;
+  min-width:158px;
+  flex-direction:row;
+  gap:9px;
+  padding:10px 15px;
 }
 
-/* TOAST */
+.tool-btn.mic-en span {
+  font-size:14px;
+}
+
+.tool-btn.recording {
+  background:var(--red);
+  border-color:var(--red);
+  color:white;
+}
+
+.tool-btn.clear { color:var(--red); }
+
+.tool-btn:active:not(:disabled),
+.icon-btn:active,
+.speaker:active {
+  transform:scale(.96);
+}
+
+.footer-info {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:11px;
+  gap:10px;
+  padding:2px 4px;
+}
 
 .toast {
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translate(-50%, 20px);
-    max-width: 90vw;
-    background: #1F2937;
-    color: white;
-    padding: 11px 18px;
-    border-radius: 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.2);
-    font-size: 14px;
-    text-align: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: .2s ease;
-    z-index: 1000;
+  position:fixed;
+  bottom:calc(22px + env(safe-area-inset-bottom));
+  left:50%;
+  transform:translate(-50%,15px);
+  width:max-content;
+  max-width:90vw;
+  padding:11px 16px;
+  border-radius:12px;
+  background:#263344;
+  color:white;
+  font-size:13px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s,transform .18s;
+  z-index:100;
 }
 
 .toast.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
+  opacity:1;
+  transform:translate(-50%,0);
 }
 
 /* MOBILE */
 
-@media(max-width: 520px) {
-    body {
-        padding: 9px 8px;
-    }
+@media(max-width:520px) {
+  .app { gap:9px; }
 
-    .container {
-        gap: 8px;
-    }
+  .panel {
+    padding:11px;
+    border-radius:15px;
+    gap:9px;
+  }
 
-    header {
-        gap: 5px;
-    }
+  .panel-title { font-size:16px; }
 
-    .heading {
-        gap: 5px;
-    }
+  .field {
+    min-height:153px;
+    padding:12px;
+  }
 
-    h1 {
-        font-size: 16px;
-    }
+  .tools { gap:5px; }
 
-    .mini {
-        width: 35px;
-        height: 37px;
-    }
+  .tool-btn {
+    min-height:59px;
+    padding:7px 3px;
+  }
 
-    .status {
-        font-size: 11px;
-    }
+  .tool-btn span { font-size:10px; }
 
-    .editor {
-        min-height: 260px;
-        font-size: 21px;
-        padding: 12px;
-    }
+  .tool-btn.mic-en span { font-size:13px; }
 
-    .controls-main {
-        grid-template-columns: 49px 43px 43px minmax(0,1fr);
-        gap: 5px;
-    }
-
-    .action {
-        min-height: 56px;
-    }
-
-    .btn-language {
-        font-size: 23px;
-    }
-
-    .btn-start {
-        font-size: 14px;
-        gap: 5px;
-    }
-
-    .controls-edit {
-        gap: 5px;
-    }
-
-    .edit-button span {
-        font-size: 11px;
-    }
+  .panel-note { font-size:11px; }
 }
 
-@media(prefers-reduced-motion: reduce) {
-    .status-dot {
-        animation: none;
-    }
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<main class="app">
 
-    <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
+          <rect x="9" y="3" width="6" height="12" rx="3"/>
+          <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>
+        </svg>
+      </div>
+      <h1>Voice Translator</h1>
+    </div>
 
-    <header>
-        <div class="heading">
+    <div class="header-actions">
+      <button class="icon-btn" id="fontDown"
+        title="Giảm cỡ chữ" aria-label="Giảm cỡ chữ">
+        A−
+      </button>
+      <button class="icon-btn" id="fontUp"
+        title="Tăng cỡ chữ" aria-label="Tăng cỡ chữ">
+        A+
+      </button>
+      <button class="icon-btn" id="theme"
+        title="Chế độ sáng tối" aria-label="Sáng tối">
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.8">
+          <path d="M20.5 14.2A8.7 8.7 0 0 1
+            9.8 3.5 8.8 8.8 0 1 0 20.5 14.2Z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
 
-            <h1>Speech to Text Editor</h1>
+  <div class="statusbar" role="status" aria-live="polite">
+    <div class="status-left">
+      <span class="dot" id="dot"></span>
+      <span id="status">Sẵn sàng</span>
+    </div>
+    <span id="connection">Online</span>
+  </div>
 
-            <button
-                class="mini punctuation"
-                id="btnPeriod"
-                title="Dấu chấm"
-                aria-label="Chèn dấu chấm">
-                .
-            </button>
+  <!-- VIETNAMESE -->
 
-            <button
-                class="mini punctuation"
-                id="btnComma"
-                title="Dấu phẩy"
-                aria-label="Chèn dấu phẩy">
-                ,
-            </button>
+  <section class="panel" id="viPanel">
 
-            <button
-                class="mini"
-                id="btnTheme"
-                title="Chuyển sáng/tối"
-                aria-label="Chuyển chế độ sáng tối">
-                <i class="fas fa-moon"></i>
-            </button>
-
-        </div>
-
-        <div class="status" role="status">
-            <div id="statusDot" class="status-dot"></div>
-            <span id="statusText">Sẵn sàng</span>
-        </div>
-    </header>
-
-    <!-- TEXT EDITOR -->
+    <div class="panel-head">
+      <div class="panel-title">Tiếng Việt</div>
+      <span class="panel-note" id="viNote">
+        Vietnamese
+      </span>
+    </div>
 
     <textarea
-        id="resultText"
-        class="editor"
-        placeholder="Văn bản sẽ xuất hiện ở đây khi bạn nói..."
-        spellcheck="true"
-        aria-label="Văn bản nhận dạng">
-    </textarea>
+      class="field"
+      id="viText"
+      spellcheck="true"
+      placeholder="Nội dung tiếng Việt sẽ xuất hiện ở đây..."
+      aria-label="Nội dung tiếng Việt"
+    ></textarea>
 
-    <!-- STATISTICS -->
+    <div class="panel-footer">
+      <div class="tools">
 
-    <div class="stats">
+        <button class="tool-btn mic-vi" id="viMic">
+          <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <rect x="9" y="3" width="6" height="12" rx="3"/>
+            <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>
+          </svg>
+          <span id="viMicLabel">Nói tiếng Việt</span>
+        </button>
 
-        <span id="wordStats">
-            0 từ | 0 ký tự
-        </span>
+        <button class="tool-btn" id="deleteWord">
+          <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round">
+            <path d="M4 7h16M10 11v6M14 11v6M6 7l1 14h10l1-14M9 7V4h6v3"/>
+          </svg>
+          <span>Xóa 1 từ</span>
+        </button>
 
-        <div class="font-controls">
-            <span>Cỡ chữ:</span>
+        <button class="tool-btn clear" id="clearVi">
+          <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round">
+            <path d="M4 7h16M6 7l1 14h10l1-14M9 7V4h6v3"/>
+            <path d="M10 11v6M14 11v6"/>
+          </svg>
+          <span>Xóa hết</span>
+        </button>
 
-            <button id="fontDown" aria-label="Giảm cỡ chữ">
-                A−
-            </button>
+        <button class="tool-btn" id="undoVi" disabled>
+          <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M9 14 4 9l5-5M4 9h9a7 7 0 0 1 0 14"/>
+          </svg>
+          <span>Phục hồi</span>
+        </button>
 
-            <button id="fontUp" aria-label="Tăng cỡ chữ">
-                A+
-            </button>
-        </div>
-
+      </div>
     </div>
 
-    <!-- MAIN CONTROLS -->
+  </section>
 
-    <div class="controls-main">
+  <!-- ENGLISH -->
 
-        <button
-            id="btnSpeak"
-            class="action btn-speak"
-            title="Phát lại văn bản"
-            aria-label="Phát lại văn bản">
-            <i class="fas fa-volume-up"></i>
+  <section class="panel" id="enPanel">
+
+    <div class="panel-head">
+      <div class="panel-title">
+
+        <button class="speaker" id="speaker"
+          title="Phát tiếng Anh rồi nghe khách"
+          aria-label="Phát tiếng Anh">
+          <svg id="speakerIcon" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor"
+            stroke-width="1.9"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
+            <path d="M15 9a5 5 0 0 1 0 6"/>
+            <path d="M18 6a9 9 0 0 1 0 12"/>
+          </svg>
         </button>
 
-        <button
-            id="btnVietnamese"
-            class="action btn-language selected"
-            title="Tiếng Việt"
-            aria-label="Nhận dạng tiếng Việt"
-            aria-pressed="true">
-            🇻🇳
-        </button>
+        <span>English (US)</span>
+      </div>
 
-        <button
-            id="btnEnglish"
-            class="action btn-language"
-            title="English (US)"
-            aria-label="Nhận dạng tiếng Anh Mỹ"
-            aria-pressed="false">
-            🇺🇸
-        </button>
-
-        <button
-            id="btnStart"
-            class="action btn-start">
-            <i class="fas fa-microphone"></i>
-            <span>Bắt đầu nói</span>
-        </button>
-
+      <span class="panel-note" id="enNote">
+        American English
+      </span>
     </div>
 
-    <!-- EDITING CONTROLS -->
+    <textarea
+      class="field"
+      id="enText"
+      spellcheck="true"
+      placeholder="English translation appears here..."
+      aria-label="English text"
+    ></textarea>
 
-    <div class="controls-edit">
+    <div class="panel-footer">
+      <button class="tool-btn mic-en" id="enMic">
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
+          <rect x="9" y="3" width="6" height="12" rx="3"/>
+          <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>
+        </svg>
+        <span id="enMicLabel">Speak English</span>
+      </button>
 
-        <button
-            id="btnDeleteWord"
-            class="action edit-button"
-            title="Xóa một từ cuối">
-            <i class="fas fa-trash-alt"></i>
-            <span>1 từ</span>
-        </button>
-
-        <button
-            id="btnClearAll"
-            class="action edit-button btn-clear"
-            title="Xóa toàn bộ văn bản">
-            <i class="fas fa-trash-alt"></i>
-            <span>Tất cả</span>
-        </button>
-
-        <button
-            id="btnUndo"
-            class="action edit-button"
-            title="Phục hồi"
-            disabled>
-            <i class="fas fa-undo"></i>
-            <span>Phục hồi</span>
-        </button>
-
-        <button
-            id="btnCopy"
-            class="action edit-button btn-copy"
-            title="Sao chép toàn bộ">
-            <i class="fas fa-copy"></i>
-            <span>Sao chép</span>
-        </button>
-
+      <span class="panel-note" id="enHint">
+        English → Vietnamese
+      </span>
     </div>
 
-</div>
+  </section>
 
-<div id="toast" class="toast"></div>
+  <div class="footer-info">
+    <span id="stats">0 từ · 0 ký tự</span>
+    <span>VI ↔ EN (US)</span>
+  </div>
+
+</main>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 'use strict';
 
 /*
- * SPEECH TO TEXT EDITOR
- *
- * Ngôn ngữ:
- * - vi-VN: Tiếng Việt
- * - en-US: Tiếng Anh Mỹ
- *
- * Nhận dạng bằng Web Speech API,
- * giống nền tảng của phiên bản cũ.
- *
- * Không tải Whisper, không tải mô hình AI riêng.
- *
- * Lưu ý:
- * Nhận dạng thường cần Internet,
- * tùy trình duyệt và dịch vụ của trình duyệt.
- */
+  VOICE TRANSLATOR
 
-// ==================================================
-// DOM ELEMENTS
-// ==================================================
+  - Một website dùng cho Safari iPhone,
+    Chrome iPhone và Chrome Android.
+
+  - Web Speech API: nhận dạng giọng nói.
+  - MyMemory API: dịch trực tuyến.
+  - SpeechSynthesis: đọc tiếng Anh.
+
+  - Tiếng Việt -> tiếng Anh:
+    nhận dạng, tự dịch, KHÔNG tự phát loa.
+
+  - Nhấn loa tiếng Anh:
+    phát bản dịch, rồi thử tự nghe tiếng Anh.
+
+  - Tiếng Anh -> tiếng Việt:
+    nhận dạng, tự dịch, chỉ hiện chữ.
+
+  - Không dùng Whisper.
+  - Không lưu API key.
+  - Cần Internet để nhận dạng/dịch
+    trong các trình duyệt thông thường.
+
+  Chú ý:
+  iOS có thể chặn việc tự khởi động lại micro.
+  Khi đó người dùng bấm Speak English thủ công.
+
+  Dịch vụ miễn phí có giới hạn sử dụng và
+  không bảo đảm tính sẵn sàng lâu dài.
+*/
+
+// ========================================
+// DOM
+// ========================================
 
 const $ = id => document.getElementById(id);
 
-const resultText = $('resultText');
+const viText = $('viText');
+const enText = $('enText');
 
-const btnStart = $('btnStart');
-const btnSpeak = $('btnSpeak');
+const viMic = $('viMic');
+const enMic = $('enMic');
+const speaker = $('speaker');
 
-const btnVietnamese = $('btnVietnamese');
-const btnEnglish = $('btnEnglish');
+const viPanel = $('viPanel');
+const enPanel = $('enPanel');
 
-const btnPeriod = $('btnPeriod');
-const btnComma = $('btnComma');
-
-const btnDeleteWord = $('btnDeleteWord');
-const btnClearAll = $('btnClearAll');
-const btnUndo = $('btnUndo');
-const btnCopy = $('btnCopy');
-
-const btnTheme = $('btnTheme');
-
-const statusText = $('statusText');
-const statusDot = $('statusDot');
-
-const wordStats = $('wordStats');
-
-const toast = $('toast');
-
-// ==================================================
-// APP STATE
-// ==================================================
+const undoVi = $('undoVi');
 
 const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+// ========================================
+// CONFIGURATION
+// ========================================
+
+const CONFIG = {
+  vietnamese:'vi-VN',
+  english:'en-US',
+
+  // Đợi âm vang của loa giảm rồi mới nghe.
+  // Không bảo đảm loại bỏ toàn bộ tiếng vang.
+  speakerCooldown:600,
+
+  // Dịch khi người dùng ngừng chỉnh sửa.
+  editDebounce:850,
+
+  // Giới hạn chờ dịch vụ dịch.
+  translationTimeout:12000,
+
+  // Giới hạn số ký tự mỗi yêu cầu MyMemory.
+  maxTranslationLength:450,
+
+  // Không tự ghi âm liên tục nhiều lượt
+  // khi không có thao tác của người dùng.
+  autoRetryRecognition:false
+};
+
+const STORAGE = {
+  vi:'vt_vietnamese_v2',
+  en:'vt_english_v2',
+  theme:'vt_theme_v2',
+  font:'vt_font_v2'
+};
+
+// ========================================
+// STATE
+// ========================================
 
 let recognition = null;
 
-let currentLanguage = 'vi-VN';
+let activeLanguage = null;
+let recognitionStarting = false;
+let recognitionStopping = false;
 
-let wantsRecording = false;
-let recognitionActive = false;
+let recognitionToken = 0;
 
-let baseText = '';
-let currentSessionFinal = '';
+let sourceText = '';
+let finalTranscript = '';
 
-let recognitionGeneration = 0;
-let restartTimer = null;
+let speakerUtterance = null;
+let speaking = false;
 
-let currentFontSize = 24;
-
-let undoHistory = [];
-
-let lastSelection = {
-    start: 0,
-    end: 0
-};
-
+let autoListenTimer = null;
+let editTimer = null;
 let toastTimer = null;
 
-let ttsUtterance = null;
+let translationToken = 0;
+let translationController = null;
 
-const STORAGE_TEXT = 'speechEditorVIUS_text';
-const STORAGE_THEME = 'speechEditorVIUS_theme';
-const STORAGE_LANGUAGE = 'speechEditorVIUS_language';
+let translationPending = false;
 
-// ==================================================
-// TOAST
-// ==================================================
+let englishNeedsUpdate = false;
+let vietnameseNeedsUpdate = false;
+
+let viUndoStack = [];
+
+let fontSize = 23;
+
+// ========================================
+// ICON HELPERS
+// ========================================
+
+const MIC_ICON = `
+<svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2"
+stroke-linecap="round">
+<rect x="9" y="3" width="6" height="12" rx="3"/>
+<path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>
+</svg>`;
+
+const STOP_ICON = `
+<svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2"
+stroke-linecap="round">
+<rect x="5" y="5" width="14" height="14" rx="3"/>
+</svg>`;
+
+// ========================================
+// STATUS
+// ========================================
+
+function setStatus(message, mode='ready') {
+  $('status').textContent = message;
+  $('dot').className = 'dot';
+
+  if (mode !== 'ready') {
+    $('dot').classList.add(mode);
+  }
+}
 
 function showToast(message) {
+  $('toast').textContent = message;
+  $('toast').classList.add('show');
 
-    toast.textContent = message;
+  clearTimeout(toastTimer);
 
-    toast.classList.add('show');
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2500);
+  toastTimer = setTimeout(() => {
+    $('toast').classList.remove('show');
+  }, 2600);
 }
 
-// ==================================================
-// STATUS
-// ==================================================
-
-function setStatus(message, type = 'ready') {
-
-    statusText.textContent = message;
-
-    statusDot.className = 'status-dot';
-
-    if (type === 'active') {
-        statusDot.classList.add('active');
-    }
-
-    if (type === 'error') {
-        statusDot.classList.add('error');
-    }
+function updateConnection() {
+  $('connection').textContent =
+    navigator.onLine ? 'Online' : 'Offline';
 }
 
-// ==================================================
-// STATISTICS
-// ==================================================
+window.addEventListener('online',updateConnection);
+
+window.addEventListener('offline',() => {
+  updateConnection();
+  showToast('Mất kết nối Internet');
+});
+
+updateConnection();
+
+// ========================================
+// STORAGE
+// ========================================
+
+function safeSave(key,value) {
+  try {
+    localStorage.setItem(key,value);
+  } catch(e) {}
+}
+
+function safeRead(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch(e) {
+    return null;
+  }
+}
+
+function saveTexts() {
+  safeSave(STORAGE.vi,viText.value);
+  safeSave(STORAGE.en,enText.value);
+  updateStats();
+}
 
 function updateStats() {
+  const vi = viText.value.trim();
 
-    const text = resultText.value.trim();
+  const count = vi
+    ? vi.split(/\s+/u).length
+    : 0;
 
-    const words = text
-        ? text.split(/\s+/u).length
-        : 0;
-
-    const characters = resultText.value.length;
-
-    wordStats.textContent =
-        `${words} từ | ${characters} ký tự`;
+  $('stats').textContent =
+    `${count} từ · ${viText.value.length} ký tự`;
 }
 
-// ==================================================
-// LOCAL STORAGE
-// ==================================================
+// ========================================
+// TEXT FORMAT
+// ========================================
 
-function saveDraft() {
+function appendText(base,addition) {
+  const chunk = addition.trim();
 
-    try {
+  if (!chunk) return base;
+  if (!base) return chunk;
 
-        localStorage.setItem(
-            STORAGE_TEXT,
-            resultText.value
-        );
-
-    } catch (error) {
-        console.warn('Không thể lưu văn bản:', error);
-    }
-
-    updateStats();
+  return base +
+    (/\s$/u.test(base) ? '' : ' ') +
+    chunk;
 }
 
-// ==================================================
-// UNDO HISTORY
-// ==================================================
-
-function saveUndoState() {
-
-    undoHistory.push({
-        text: resultText.value,
-        start: resultText.selectionStart,
-        end: resultText.selectionEnd
-    });
-
-    if (undoHistory.length > 40) {
-        undoHistory.shift();
-    }
-
-    btnUndo.disabled = false;
+function capitalizeSentences(text) {
+  return text.replace(
+    /(^|[.!?]\s+|\n\s*)([a-zà-ỹ])/giu,
+    (_,prefix,letter) =>
+      prefix + letter.toUpperCase()
+  );
 }
 
-// ==================================================
-// SET EDITOR TEXT
-// ==================================================
-
-function setEditorText(text) {
-
-    resultText.value = text;
-
-    baseText = text;
-
-    saveDraft();
+function setVietnamese(text) {
+  viText.value = text;
+  saveTexts();
 }
 
-// ==================================================
-// TEXT JOINING
-// ==================================================
-
-function appendText(original, added) {
-
-    const addition = added.trim();
-
-    if (!addition) {
-        return original;
-    }
-
-    if (!original) {
-        return addition;
-    }
-
-    const separator = /\s$/u.test(original)
-        ? ''
-        : ' ';
-
-    return original + separator + addition;
+function setEnglish(text) {
+  enText.value = text;
+  saveTexts();
 }
 
-// ==================================================
-// LIGHT CAPITALIZATION
-// ==================================================
+function scrollBottom(element) {
+  element.scrollTop = element.scrollHeight;
+}
 
-function autoCapitalize(text) {
+// ========================================
+// VIETNAMESE UNDO
+// ========================================
 
-    if (!text) {
-        return text;
-    }
+function rememberVietnamese() {
+  viUndoStack.push(viText.value);
 
-    return text.replace(
-        /(^|[.!?]\s+|\n\s*)([a-zà-ỹ])/giu,
-        function(match, prefix, letter) {
+  if (viUndoStack.length > 40) {
+    viUndoStack.shift();
+  }
 
-            return prefix + letter.toUpperCase();
+  undoVi.disabled = false;
+}
 
-        }
+function editVietnamese(text) {
+  rememberVietnamese();
+  setVietnamese(text);
+  scheduleVietnameseTranslation();
+}
+
+$('deleteWord').onclick = () => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
+
+  const text = viText.value.trimEnd();
+
+  if (!text) return;
+
+  const updated =
+    text.replace(/\S+$/u,'').trimEnd();
+
+  editVietnamese(updated);
+
+  showToast('Đã xóa 1 từ');
+};
+
+$('clearVi').onclick = () => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
+
+  if (!viText.value) return;
+
+  editVietnamese('');
+
+  showToast('Đã xóa tiếng Việt');
+};
+
+undoVi.onclick = () => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
+
+  if (!viUndoStack.length) return;
+
+  const previous = viUndoStack.pop();
+
+  setVietnamese(previous);
+
+  undoVi.disabled = !viUndoStack.length;
+
+  scheduleVietnameseTranslation();
+
+  showToast('Đã phục hồi');
+};
+
+// ========================================
+// TRANSLATION REQUESTS
+// ========================================
+
+function invalidateTranslation() {
+  translationToken++;
+
+  clearTimeout(editTimer);
+
+  if (translationController) {
+    translationController.abort();
+    translationController = null;
+  }
+
+  translationPending = false;
+
+  viText.classList.remove('pending');
+  enText.classList.remove('pending');
+}
+
+/*
+  MyMemory dịch trực tuyến.
+
+  Không dùng endpoint Google Translate
+  không chính thức vì có thể bị chặn CORS.
+
+  Giới hạn miễn phí và chất lượng có thể
+  khác nhau theo cặp ngôn ngữ.
+*/
+
+async function translateOnline(
+  text,
+  from,
+  to,
+  signal
+) {
+  const input = text.trim();
+
+  if (!input) return '';
+
+  if (!navigator.onLine) {
+    throw new Error('Không có Internet');
+  }
+
+  if (input.length > CONFIG.maxTranslationLength) {
+    throw new Error(
+      'Đoạn văn quá dài. Hãy nói ngắn hơn.'
     );
+  }
+
+  const url = new URL(
+    'https://api.mymemory.translated.net/get'
+  );
+
+  url.searchParams.set('q',input);
+
+  url.searchParams.set(
+    'langpair',
+    `${from}|${to}`
+  );
+
+  const response = await fetch(
+    url.toString(),
+    {
+      method:'GET',
+      signal,
+      cache:'no-store'
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Máy chủ dịch lỗi ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+
+  const status = Number(data.responseStatus);
+
+  if (status !== 200) {
+    throw new Error(
+      data.responseDetails ||
+      'Không thể dịch văn bản'
+    );
+  }
+
+  const result =
+    data.responseData?.translatedText;
+
+  if (typeof result !== 'string' ||
+      !result.trim()) {
+    throw new Error('Không có bản dịch');
+  }
+
+  // Giải mã HTML entities mà không chèn
+  // HTML của dịch vụ vào giao diện.
+  const decoder = document.createElement('textarea');
+  decoder.innerHTML = result;
+
+  const decoded = decoder.value.trim();
+
+  // Tránh hiển thị thông báo giới hạn dịch
+  // như thể đó là bản dịch thật.
+  if (/MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(decoded)) {
+    throw new Error('Đã đạt giới hạn dịch miễn phí');
+  }
+
+  return decoded;
 }
 
-// ==================================================
-// LANGUAGE SELECTION
-// ==================================================
+async function translateDirection(
+  fromLanguage,
+  sourceValue
+) {
+  invalidateTranslation();
 
-function selectLanguage(language) {
+  const requestId = translationToken;
 
-    if (wantsRecording || recognitionActive) {
-        stopRecognition();
-    }
+  const isVI = fromLanguage === 'vi';
 
-    currentLanguage = language;
+  const source = sourceValue.trim();
 
-    const isVietnamese = language === 'vi-VN';
+  const target = isVI ? enText : viText;
 
-    btnVietnamese.classList.toggle(
-        'selected',
-        isVietnamese
-    );
+  if (!source) {
+    target.value = '';
+    saveTexts();
 
-    btnEnglish.classList.toggle(
-        'selected',
-        !isVietnamese
-    );
-
-    btnVietnamese.setAttribute(
-        'aria-pressed',
-        String(isVietnamese)
-    );
-
-    btnEnglish.setAttribute(
-        'aria-pressed',
-        String(!isVietnamese)
-    );
-
-    resultText.placeholder = isVietnamese
-        ? 'Văn bản sẽ xuất hiện ở đây khi bạn nói...'
-        : 'Your speech will appear here...';
-
-    try {
-
-        localStorage.setItem(
-            STORAGE_LANGUAGE,
-            currentLanguage
-        );
-
-    } catch (error) {}
-
-    if (recognition) {
-        recognition.lang = currentLanguage;
-    }
+    englishNeedsUpdate = false;
+    vietnameseNeedsUpdate = false;
 
     setStatus('Sẵn sàng');
-}
+    return;
+  }
 
-// ==================================================
-// LANGUAGE BUTTONS
-// ==================================================
+  const controller = new AbortController();
 
-btnVietnamese.addEventListener('click', () => {
+  translationController = controller;
+  translationPending = true;
 
-    if (currentLanguage === 'vi-VN') {
-        return;
-    }
+  const timeout = setTimeout(() => {
+    controller.abort();
+  },CONFIG.translationTimeout);
 
-    selectLanguage('vi-VN');
+  target.classList.add('pending');
 
-    showToast('Đã chọn tiếng Việt');
+  // Bản dịch cũ không được dùng để phát loa.
+  if (isVI) {
+    englishNeedsUpdate = true;
+  } else {
+    vietnameseNeedsUpdate = true;
+  }
 
-});
+  setStatus(
+    isVI
+      ? 'Đang dịch sang tiếng Anh...'
+      : 'Translating to Vietnamese...',
+    'working'
+  );
 
-btnEnglish.addEventListener('click', () => {
-
-    if (currentLanguage === 'en-US') {
-        return;
-    }
-
-    selectLanguage('en-US');
-
-    showToast('Đã chọn tiếng Anh Mỹ');
-
-});
-
-// ==================================================
-// MICROPHONE BUTTON DISPLAY
-// ==================================================
-
-function updateMicrophoneButton(isListening) {
-
-    btnStart.classList.toggle(
-        'listening',
-        isListening
+  try {
+    const output = await translateOnline(
+      source,
+      isVI ? 'vi' : 'en',
+      isVI ? 'en' : 'vi',
+      controller.signal
     );
 
-    if (isListening) {
+    if (requestId !== translationToken) {
+      return;
+    }
 
-        btnStart.innerHTML =
-            '<i class="fas fa-stop"></i>' +
-            '<span>Dừng nói</span>';
+    target.value = capitalizeSentences(output);
 
+    saveTexts();
+
+    englishNeedsUpdate = false;
+    vietnameseNeedsUpdate = false;
+
+    setStatus(
+      isVI
+        ? 'Đã dịch · Bấm loa để phát'
+        : 'Đã dịch · Người bán có thể đọc'
+    );
+
+    if (isVI) {
+      $('enNote').textContent = 'Đã dịch';
     } else {
-
-        btnStart.innerHTML =
-            '<i class="fas fa-microphone"></i>' +
-            '<span>Bắt đầu nói</span>';
-
+      $('viNote').textContent = 'Đã dịch';
     }
+
+  } catch(error) {
+    if (requestId !== translationToken) {
+      return;
+    }
+
+    target.value = '';
+    saveTexts();
+
+    const message = error.name === 'AbortError'
+      ? 'Dịch quá thời gian chờ'
+      : error.message;
+
+    setStatus('Không dịch được','error');
+    showToast(message);
+
+  } finally {
+    clearTimeout(timeout);
+
+    if (requestId === translationToken) {
+      translationController = null;
+      translationPending = false;
+
+      target.classList.remove('pending');
+    }
+  }
 }
 
-// ==================================================
-// SPEECH RECOGNITION
-// ==================================================
+function scheduleVietnameseTranslation() {
+  invalidateTranslation();
 
-function startRecognition() {
+  clearTimeout(autoListenTimer);
 
-    if (!SpeechRecognition) {
+  const value = viText.value.trim();
 
-        setStatus(
-            'Trình duyệt không hỗ trợ nhận dạng',
-            'error'
-        );
+  englishNeedsUpdate = !!value;
 
-        showToast(
-            'Hãy sử dụng Chrome hoặc trình duyệt tương thích.'
-        );
+  // Không giữ bản tiếng Anh cũ sau khi
+  // người bán sửa nội dung tiếng Việt.
+  setEnglish('');
 
-        return;
-    }
-
-    if (wantsRecording) {
-        return;
-    }
-
-    if (
-        'speechSynthesis' in window &&
-        (
-            speechSynthesis.speaking ||
-            speechSynthesis.pending
-        )
-    ) {
-
-        speechSynthesis.cancel();
-
-        updateSpeakButton(false);
-    }
-
-    wantsRecording = true;
-
-    baseText = resultText.value;
-
-    currentSessionFinal = '';
-
-    updateMicrophoneButton(true);
-
-    setStatus('Đang mở micro...', 'active');
-
-    launchRecognitionSession();
-}
-
-// ==================================================
-// START ONE RECOGNITION SESSION
-// ==================================================
-
-function launchRecognitionSession() {
-
-    if (!wantsRecording) {
-        return;
-    }
-
-    if (recognitionActive) {
-        return;
-    }
-
-    clearTimeout(restartTimer);
-
-    const generation = ++recognitionGeneration;
-
-    const session = new SpeechRecognition();
-
-    recognition = session;
-
-    session.lang = currentLanguage;
-
-    // Giữ cơ chế nhận dạng như bản cũ.
-    // Mỗi lượt nhận dạng kết thúc thì tự bắt đầu
-    // lượt tiếp theo khi người dùng chưa bấm dừng.
-
-    session.continuous = false;
-
-    session.interimResults = true;
-
-    session.maxAlternatives = 1;
-
-    let finalTranscript = '';
-
-    let interimTranscript = '';
-
-    let sessionStarted = false;
-
-    let sessionInvalidated = false;
-
-    let sessionError = '';
-
-    // ----------------------------------------------
-    // ON START
-    // ----------------------------------------------
-
-    session.onstart = function() {
-
-        sessionStarted = true;
-
-        recognitionActive = true;
-
-        if (
-            generation !== recognitionGeneration ||
-            !wantsRecording
-        ) {
-
-            sessionInvalidated = true;
-
-            try {
-                session.abort();
-            } catch (error) {}
-
-            return;
-        }
-
-        resultText.classList.add('recording');
-
-        updateMicrophoneButton(true);
-
-        setStatus('Đang nghe...', 'active');
-    };
-
-    // ----------------------------------------------
-    // ON RESULT
-    // ----------------------------------------------
-
-    session.onresult = function(event) {
-
-        if (
-            sessionInvalidated ||
-            generation !== recognitionGeneration
-        ) {
-            return;
-        }
-
-        finalTranscript = '';
-
-        interimTranscript = '';
-
-        // Đọc toàn bộ danh sách kết quả.
-        // Không chỉ đọc resultIndex để tránh
-        // mất chữ khi trình duyệt sửa kết quả tạm.
-
-        for (
-            let i = 0;
-            i < event.results.length;
-            i++
-        ) {
-
-            const result = event.results[i];
-
-            const transcript =
-                result[0].transcript.trim();
-
-            if (!transcript) {
-                continue;
-            }
-
-            if (result.isFinal) {
-
-                finalTranscript = appendText(
-                    finalTranscript,
-                    transcript
-                );
-
-            } else {
-
-                interimTranscript = appendText(
-                    interimTranscript,
-                    transcript
-                );
-            }
-        }
-
-        let visibleText = baseText;
-
-        if (finalTranscript) {
-
-            visibleText = appendText(
-                visibleText,
-                finalTranscript
-            );
-        }
-
-        if (interimTranscript) {
-
-            visibleText = appendText(
-                visibleText,
-                interimTranscript
-            );
-        }
-
-        visibleText = autoCapitalize(visibleText);
-
-        resultText.value = visibleText;
-
-        updateStats();
-
-        resultText.scrollTop =
-            resultText.scrollHeight;
-    };
-
-    // ----------------------------------------------
-    // ON ERROR
-    // ----------------------------------------------
-
-    session.onerror = function(event) {
-
-        if (
-            sessionInvalidated ||
-            generation !== recognitionGeneration
-        ) {
-            return;
-        }
-
-        sessionError = event.error;
-
-        switch (event.error) {
-
-            case 'no-speech':
-
-                // Không có tiếng nói.
-                // Đợi onend rồi nghe tiếp.
-                break;
-
-            case 'not-allowed':
-            case 'service-not-allowed':
-
-                wantsRecording = false;
-
-                setStatus(
-                    'Micro bị từ chối',
-                    'error'
-                );
-
-                showToast(
-                    'Hãy cấp quyền sử dụng micro.'
-                );
-
-                break;
-
-            case 'audio-capture':
-
-                wantsRecording = false;
-
-                setStatus(
-                    'Không tìm thấy micro',
-                    'error'
-                );
-
-                break;
-
-            case 'network':
-
-                wantsRecording = false;
-
-                setStatus(
-                    'Lỗi kết nối nhận dạng',
-                    'error'
-                );
-
-                showToast(
-                    'Nhận dạng giọng nói có thể cần Internet.'
-                );
-
-                break;
-
-            case 'aborted':
-
-                break;
-
-            default:
-
-                wantsRecording = false;
-
-                setStatus(
-                    'Lỗi nhận dạng',
-                    'error'
-                );
-
-                console.warn(
-                    'Speech recognition error:',
-                    event.error
-                );
-        }
-    };
-
-    // ----------------------------------------------
-    // ON END
-    // ----------------------------------------------
-
-    session.onend = function() {
-
-        if (recognition === session) {
-            recognitionActive = false;
-        }
-
-        if (
-            sessionInvalidated ||
-            generation !== recognitionGeneration
-        ) {
-            return;
-        }
-
-        // Chỉ lưu kết quả cuối đã được xác nhận.
-        // Không lưu chữ tạm nhiều lần để tránh
-        // trùng lặp văn bản.
-
-        if (finalTranscript.trim()) {
-
-            const newText = autoCapitalize(
-                appendText(
-                    baseText,
-                    finalTranscript
-                )
-            );
-
-            setEditorText(newText);
-
-        } else {
-
-            // Nếu đoạn chỉ có kết quả tạm,
-            // trả về bản văn bản đã xác nhận.
-
-            resultText.value = baseText;
-
-            updateStats();
-        }
-
-        finalTranscript = '';
-
-        interimTranscript = '';
-
-        resultText.classList.remove('recording');
-
-        if (wantsRecording) {
-
-            setStatus(
-                'Đang chờ bạn nói...',
-                'active'
-            );
-
-            // Khởi động lượt mới sau khi lượt cũ
-            // đã kết thúc hoàn toàn.
-
-            restartTimer = setTimeout(() => {
-
-                if (
-                    wantsRecording &&
-                    generation === recognitionGeneration
-                ) {
-
-                    launchRecognitionSession();
-                }
-
-            }, 180);
-
-        } else {
-
-            if (!sessionError) {
-                setStatus('Sẵn sàng');
-            }
-
-            updateMicrophoneButton(false);
-        }
-    };
-
-    // ----------------------------------------------
-    // ACTIVATE
-    // ----------------------------------------------
-
-    try {
-
-        session.start();
-
-    } catch (error) {
-
-        recognitionActive = false;
-
-        wantsRecording = false;
-
-        updateMicrophoneButton(false);
-
-        setStatus(
-            'Không thể khởi động micro',
-            'error'
-        );
-
-        console.error(error);
-    }
-}
-
-// ==================================================
-// STOP RECOGNITION
-// ==================================================
-
-function stopRecognition() {
-
-    wantsRecording = false;
-
-    clearTimeout(restartTimer);
-
-    if (recognition && recognitionActive) {
-
-        try {
-
-            // stop() cố giữ kết quả cuối.
-            // abort() sẽ bỏ kết quả chưa xác nhận.
-
-            recognition.stop();
-
-            setStatus('Đang dừng...', 'active');
-
-        } catch (error) {
-
-            recognitionActive = false;
-
-            updateMicrophoneButton(false);
-
-            setStatus('Sẵn sàng');
-        }
-
-    } else {
-
-        updateMicrophoneButton(false);
-
-        resultText.classList.remove('recording');
-
-        setStatus('Sẵn sàng');
-    }
-}
-
-// ==================================================
-// CANCEL SESSION FOR MANUAL EDITING
-// ==================================================
-
-function cancelRecognitionForEdit() {
-
-    if (!wantsRecording && !recognitionActive) {
-        return;
-    }
-
-    wantsRecording = false;
-
-    clearTimeout(restartTimer);
-
-    // Vô hiệu hóa callback cũ để chúng không
-    // ghi đè lên văn bản vừa chỉnh sửa.
-
-    recognitionGeneration++;
-
-    if (recognition) {
-
-        try {
-            recognition.abort();
-        } catch (error) {}
-    }
-
-    recognitionActive = false;
-
-    baseText = resultText.value;
-
-    resultText.classList.remove('recording');
-
-    updateMicrophoneButton(false);
-
+  if (!value) {
+    englishNeedsUpdate = false;
     setStatus('Sẵn sàng');
+    return;
+  }
+
+  setStatus('Đang chờ dịch...','working');
+
+  editTimer = setTimeout(() => {
+    translateDirection('vi',viText.value);
+  },CONFIG.editDebounce);
 }
 
-// ==================================================
-// MICROPHONE BUTTON
-// ==================================================
-
-btnStart.addEventListener('click', () => {
-
-    if (wantsRecording) {
-
-        stopRecognition();
-
-    } else {
-
-        if (recognitionActive) {
-            return;
-        }
-
-        startRecognition();
-    }
-});
-
-// ==================================================
-// PUNCTUATION
-// ==================================================
-
-function insertSymbol(symbol) {
-
-    cancelRecognitionForEdit();
-
-    saveUndoState();
-
-    const text = resultText.value;
-
-    const startPos = resultText.selectionStart;
-
-    const endPos = resultText.selectionEnd;
-
-    const before = text
-        .substring(0, startPos)
-        .replace(/[ \t]+$/u, '');
-
-    const after = text
-        .substring(endPos)
-        .replace(/^[ \t]+/u, '');
-
-    const punctuation = symbol + ' ';
-
-    const newText = autoCapitalize(
-        before + punctuation + after
-    );
-
-    setEditorText(newText);
-
-    const caret = before.length +
-                  punctuation.length;
-
-    resultText.focus();
-
-    resultText.setSelectionRange(caret, caret);
-
-    showToast(
-        symbol === '.'
-            ? 'Đã thêm dấu chấm'
-            : 'Đã thêm dấu phẩy'
-    );
-}
-
-btnPeriod.addEventListener('click', () => {
-    insertSymbol('.');
-});
-
-btnComma.addEventListener('click', () => {
-    insertSymbol(',');
-});
-
-// ==================================================
+// ========================================
 // MANUAL TEXT EDITING
-// ==================================================
+// ========================================
 
-resultText.addEventListener('input', () => {
+viText.addEventListener('input',() => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
 
-    if (wantsRecording || recognitionActive) {
-
-        cancelRecognitionForEdit();
-    }
-
-    baseText = resultText.value;
-
-    saveDraft();
+  saveTexts();
+  scheduleVietnameseTranslation();
 });
 
-// ==================================================
-// DELETE LAST WORD
-// ==================================================
+enText.addEventListener('input',() => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
 
-btnDeleteWord.addEventListener('click', () => {
+  invalidateTranslation();
 
-    cancelRecognitionForEdit();
+  englishNeedsUpdate = false;
 
-    let text = resultText.value.trimEnd();
+  saveTexts();
 
-    if (!text) {
-        return;
-    }
+  // Khi chỉnh trực tiếp câu tiếng Anh,
+  // ô tiếng Việt sẽ được dịch lại.
+  clearTimeout(editTimer);
 
-    saveUndoState();
-
-    // Xóa từ cuối, kể cả khi có xuống dòng.
-    // Giữ nguyên nội dung phía trước.
-
-    text = text.replace(
-        /\S+$/u,
-        ''
-    );
-
-    text = text.trimEnd();
-
-    setEditorText(text);
-
-    showToast('Đã xóa một từ');
+  editTimer = setTimeout(() => {
+    translateDirection('en',enText.value);
+  },CONFIG.editDebounce);
 });
 
-// ==================================================
-// CLEAR ALL
-// ==================================================
+// ========================================
+// TEXT TO SPEECH
+// ========================================
 
-btnClearAll.addEventListener('click', () => {
+function stopAutoListen() {
+  clearTimeout(autoListenTimer);
+  autoListenTimer = null;
+}
 
-    cancelRecognitionForEdit();
+function updateSpeakerUI(isPlaying) {
+  speaker.classList.toggle('playing',isPlaying);
 
-    if (!resultText.value) {
-        return;
+  speaker.setAttribute(
+    'aria-label',
+    isPlaying
+      ? 'Dừng phát tiếng Anh'
+      : 'Phát tiếng Anh'
+  );
+}
+
+function cancelSpeaker() {
+  stopAutoListen();
+
+  speaking = false;
+  speakerUtterance = null;
+
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
+
+  updateSpeakerUI(false);
+}
+
+function findEnglishVoice() {
+  if (!('speechSynthesis' in window)) {
+    return null;
+  }
+
+  const voices = speechSynthesis.getVoices();
+
+  return voices.find(
+    v => v.lang.toLowerCase() === 'en-us'
+  ) || voices.find(
+    v => v.lang.toLowerCase().startsWith('en')
+  ) || null;
+}
+
+function playEnglish() {
+  if (!('speechSynthesis' in window)) {
+    showToast('Không hỗ trợ phát âm thanh');
+    return;
+  }
+
+  // Bấm loa khi đang phát => dừng.
+  if (speaking) {
+    cancelSpeaker();
+    setStatus('Đã dừng phát');
+    return;
+  }
+
+  if (translationPending || englishNeedsUpdate) {
+    showToast('Bản dịch chưa sẵn sàng');
+    return;
+  }
+
+  const text = enText.value.trim();
+
+  if (!text) {
+    showToast('Chưa có câu tiếng Anh');
+    return;
+  }
+
+  stopRecognitionImmediately();
+  cancelSpeaker();
+
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+  utterance.lang = CONFIG.english;
+
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  const voice = findEnglishVoice();
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
+  speakerUtterance = utterance;
+
+  let actuallyStarted = false;
+  let completed = false;
+
+  utterance.onstart = () => {
+    if (speakerUtterance !== utterance) return;
+
+    actuallyStarted = true;
+    speaking = true;
+
+    updateSpeakerUI(true);
+
+    setStatus('Speaking English...','working');
+  };
+
+  utterance.onend = () => {
+    if (speakerUtterance !== utterance) return;
+
+    if (completed) return;
+    completed = true;
+
+    speaking = false;
+    speakerUtterance = null;
+
+    updateSpeakerUI(false);
+
+    // Không nghe ngay lập tức khi âm thanh
+    // còn vang từ loa điện thoại.
+    //
+    // Trình duyệt iPhone có thể chặn thao tác
+    // tự khởi động micro. Nút bấm vẫn là dự phòng.
+
+    if (actuallyStarted) {
+      setStatus('Chuẩn bị nghe khách...','working');
+
+      autoListenTimer = setTimeout(() => {
+        autoListenTimer = null;
+
+        if (!speaking && !activeLanguage) {
+          startRecognition('en',true);
+        }
+      },CONFIG.speakerCooldown);
     }
+  };
 
-    saveUndoState();
+  utterance.onerror = () => {
+    if (speakerUtterance !== utterance) return;
 
-    setEditorText('');
+    speaking = false;
+    speakerUtterance = null;
+
+    updateSpeakerUI(false);
+
+    setStatus('Không phát được tiếng Anh','error');
 
     showToast(
-        'Đã xóa toàn bộ. Có thể phục hồi.'
+      'Không thể phát âm thanh. Hãy kiểm tra loa.'
     );
-});
+  };
 
-// ==================================================
-// UNDO
-// ==================================================
+  try {
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
 
-btnUndo.addEventListener('click', () => {
+    setStatus('Đang chuẩn bị phát tiếng Anh...','working');
 
-    cancelRecognitionForEdit();
+  } catch(error) {
+    speaking = false;
+    speakerUtterance = null;
 
-    if (undoHistory.length === 0) {
-        return;
-    }
+    updateSpeakerUI(false);
 
-    const previous = undoHistory.pop();
+    showToast('Không khởi động được loa');
+  }
+}
 
-    setEditorText(previous.text);
+speaker.onclick = playEnglish;
 
-    resultText.focus();
+// ========================================
+// RECOGNITION UI
+// ========================================
 
-    resultText.setSelectionRange(
-        previous.start,
-        previous.end
-    );
+function updateMicUI(language,isActive) {
+  const button = language === 'vi'
+    ? viMic
+    : enMic;
 
-    btnUndo.disabled =
-        undoHistory.length === 0;
+  const label = language === 'vi'
+    ? $('viMicLabel')
+    : $('enMicLabel');
 
-    showToast('Đã phục hồi văn bản');
-});
+  button.classList.toggle('recording',isActive);
 
-// ==================================================
-// COPY TEXT
-// ==================================================
+  const icon = button.querySelector('svg');
 
-btnCopy.addEventListener('click', async () => {
+  if (icon) {
+    icon.outerHTML = isActive
+      ? STOP_ICON
+      : MIC_ICON;
+  }
 
-    const text = resultText.value;
+  label.textContent = isActive
+    ? (language === 'vi'
+        ? 'Dừng nói'
+        : 'Stop Listening')
+    : (language === 'vi'
+        ? 'Nói tiếng Việt'
+        : 'Speak English');
 
-    if (!text.trim()) {
+  viPanel.classList.toggle(
+    'active',
+    isActive && language === 'vi'
+  );
 
-        showToast('Không có văn bản để sao chép');
+  enPanel.classList.toggle(
+    'english-active',
+    isActive && language === 'en'
+  );
+}
 
-        return;
-    }
+function resetMicUI() {
+  updateMicUI('vi',false);
+  updateMicUI('en',false);
+}
 
+function stopRecognitionImmediately() {
+  stopAutoListen();
+
+  recognitionToken++;
+
+  const previous = recognition;
+
+  recognition = null;
+  activeLanguage = null;
+
+  recognitionStarting = false;
+  recognitionStopping = false;
+
+  if (previous) {
     try {
+      previous.abort();
+    } catch(e) {}
+  }
 
-        if (
-            navigator.clipboard &&
-            window.isSecureContext
-        ) {
-
-            await navigator.clipboard.writeText(text);
-
-        } else {
-
-            resultText.focus();
-
-            resultText.select();
-
-            const copied =
-                document.execCommand('copy');
-
-            if (!copied) {
-                throw new Error('Copy failed');
-            }
-        }
-
-        showToast('Đã sao chép văn bản');
-
-    } catch (error) {
-
-        showToast(
-            'Không thể sao chép. Hãy chọn văn bản thủ công.'
-        );
-    }
-});
-
-// ==================================================
-// FONT SIZE
-// ==================================================
-
-$('fontUp').addEventListener('click', () => {
-
-    currentFontSize = Math.min(
-        currentFontSize + 2,
-        40
-    );
-
-    resultText.style.fontSize =
-        currentFontSize + 'px';
-});
-
-$('fontDown').addEventListener('click', () => {
-
-    currentFontSize = Math.max(
-        currentFontSize - 2,
-        16
-    );
-
-    resultText.style.fontSize =
-        currentFontSize + 'px';
-});
-
-// ==================================================
-// TEXT TO SPEECH
-// ==================================================
-
-function chooseVoice(language) {
-
-    const voices = speechSynthesis.getVoices();
-
-    const exact = voices.find(voice =>
-        voice.lang.toLowerCase() ===
-        language.toLowerCase()
-    );
-
-    if (exact) {
-        return exact;
-    }
-
-    const prefix = language
-        .split('-')[0]
-        .toLowerCase();
-
-    return voices.find(voice =>
-        voice.lang.toLowerCase().startsWith(prefix)
-    ) || null;
+  resetMicUI();
 }
 
-// ==================================================
-// UPDATE SPEAKER BUTTON
-// ==================================================
+// ========================================
+// STOP MICRO AND KEEP FINAL RESULT
+// ========================================
 
-function updateSpeakButton(speaking) {
+function stopRecognitionGracefully() {
+  if (!recognition) {
+    stopRecognitionImmediately();
+    return;
+  }
 
-    if (speaking) {
+  recognitionStopping = true;
 
-        btnSpeak.innerHTML =
-            '<i class="fas fa-stop"></i>';
+  setStatus('Đang hoàn tất câu...','working');
 
-        btnSpeak.title = 'Dừng phát lại';
-
-        btnSpeak.setAttribute(
-            'aria-label',
-            'Dừng phát lại'
-        );
-
-    } else {
-
-        btnSpeak.innerHTML =
-            '<i class="fas fa-volume-up"></i>';
-
-        btnSpeak.title = 'Phát lại văn bản';
-
-        btnSpeak.setAttribute(
-            'aria-label',
-            'Phát lại văn bản'
-        );
-    }
+  try {
+    recognition.stop();
+  } catch(error) {
+    stopRecognitionImmediately();
+  }
 }
 
-// ==================================================
-// SPEAKER
-// ==================================================
+// ========================================
+// SPEECH RECOGNITION
+// ========================================
 
-btnSpeak.addEventListener('click', () => {
+function startRecognition(language,automatic=false) {
+  stopAutoListen();
 
-    if (!('speechSynthesis' in window)) {
+  if (!SpeechRecognition) {
+    setStatus('Trình duyệt không hỗ trợ micro','error');
 
-        showToast(
-            'Trình duyệt không hỗ trợ đọc văn bản'
+    showToast(
+      'Trình duyệt không hỗ trợ Speech Recognition.'
+    );
+
+    return;
+  }
+
+  if (speaking) {
+    cancelSpeaker();
+  }
+
+  if (activeLanguage || recognitionStarting) {
+    stopRecognitionImmediately();
+  }
+
+  // Không cho kết quả dịch cũ tiếp tục
+  // ghi đè khi người dùng đổi ngôn ngữ.
+  invalidateTranslation();
+
+  const token = ++recognitionToken;
+
+  const isVI = language === 'vi';
+
+  const target = isVI ? viText : enText;
+
+  activeLanguage = language;
+  recognitionStarting = true;
+  recognitionStopping = false;
+
+  sourceText = target.value;
+  finalTranscript = '';
+
+  const session = new SpeechRecognition();
+
+  recognition = session;
+
+  session.lang = isVI
+    ? CONFIG.vietnamese
+    : CONFIG.english;
+
+  // Giữ phương pháp nhận dạng của bản cũ.
+  // Một lượt nghe -> tự kết thúc -> dịch.
+  // Người dùng không phải giữ nút micro.
+
+  session.continuous = false;
+  session.interimResults = true;
+  session.maxAlternatives = 1;
+
+  let sessionFinal = '';
+  let sessionInterim = '';
+  let sessionError = null;
+  let alreadyFinished = false;
+
+  // --------------------------------------
+  // MICRO STARTED
+  // --------------------------------------
+
+  session.onstart = () => {
+    if (token !== recognitionToken) {
+      try { session.abort(); } catch(e) {}
+      return;
+    }
+
+    recognitionStarting = false;
+
+    updateMicUI(language,true);
+
+    setStatus(
+      isVI
+        ? 'Đang nghe tiếng Việt...'
+        : 'Listening to English...',
+      'listening'
+    );
+  };
+
+  // --------------------------------------
+  // RECOGNIZED WORDS
+  // --------------------------------------
+
+  session.onresult = event => {
+    if (token !== recognitionToken) return;
+
+    sessionFinal = '';
+    sessionInterim = '';
+
+    for (
+      let i=0;
+      i<event.results.length;
+      i++
+    ) {
+      const result = event.results[i];
+
+      const phrase =
+        result[0]?.transcript?.trim() || '';
+
+      if (!phrase) continue;
+
+      if (result.isFinal) {
+        sessionFinal = appendText(
+          sessionFinal,
+          phrase
         );
+      } else {
+        sessionInterim = appendText(
+          sessionInterim,
+          phrase
+        );
+      }
+    }
 
-        return;
+    finalTranscript = sessionFinal;
+
+    let visible = sourceText;
+
+    if (sessionFinal) {
+      visible = appendText(
+        visible,
+        sessionFinal
+      );
+    }
+
+    if (sessionInterim) {
+      visible = appendText(
+        visible,
+        sessionInterim
+      );
+    }
+
+    target.value = capitalizeSentences(visible);
+
+    updateStats();
+    scrollBottom(target);
+  };
+
+  // --------------------------------------
+  // ERRORS
+  // --------------------------------------
+
+  session.onerror = event => {
+    if (token !== recognitionToken) return;
+
+    sessionError = event.error;
+
+    if (event.error === 'no-speech') {
+      setStatus(
+        automatic
+          ? 'Chưa nghe khách nói'
+          : 'Chưa nghe thấy giọng nói',
+        'error'
+      );
+      return;
     }
 
     if (
-        speechSynthesis.speaking ||
-        speechSynthesis.pending
+      event.error === 'not-allowed' ||
+      event.error === 'service-not-allowed'
     ) {
+      setStatus('Micro bị chặn','error');
 
-        speechSynthesis.cancel();
-
-        ttsUtterance = null;
-
-        updateSpeakButton(false);
-
-        return;
+      showToast(
+        automatic
+          ? 'Hãy bấm Speak English để bật micro.'
+          : 'Hãy cấp quyền sử dụng micro.'
+      );
+      return;
     }
 
-    const text = resultText.value.trim();
-
-    if (!text) {
-
-        showToast('Chưa có văn bản để đọc');
-
-        return;
+    if (event.error === 'audio-capture') {
+      setStatus('Không tìm thấy micro','error');
+      showToast('Hãy kiểm tra micro điện thoại');
+      return;
     }
 
-    if (wantsRecording || recognitionActive) {
-
-        stopRecognition();
+    if (event.error === 'network') {
+      setStatus('Lỗi mạng khi nhận dạng','error');
+      showToast('Nhận dạng cần kết nối Internet');
+      return;
     }
 
-    const utterance =
-        new SpeechSynthesisUtterance(text);
+    if (event.error !== 'aborted') {
+      setStatus('Không nhận dạng được','error');
 
-    ttsUtterance = utterance;
-
-    utterance.lang = currentLanguage;
-
-    utterance.rate = 1.0;
-
-    utterance.pitch = 1.0;
-
-    utterance.volume = 1.0;
-
-    const voice = chooseVoice(currentLanguage);
-
-    if (voice) {
-        utterance.voice = voice;
+      showToast(
+        automatic
+          ? 'Bấm Speak English để thử lại.'
+          : 'Hãy thử nói lại.'
+      );
     }
+  };
 
-    utterance.onstart = () => {
+  // --------------------------------------
+  // FINISH RECOGNITION
+  // --------------------------------------
 
-        if (ttsUtterance !== utterance) {
-            return;
-        }
+  session.onend = async () => {
+    if (token !== recognitionToken) return;
+    if (alreadyFinished) return;
 
-        updateSpeakButton(true);
-    };
+    alreadyFinished = true;
 
-    utterance.onend = () => {
+    recognition = null;
+    activeLanguage = null;
 
-        if (ttsUtterance !== utterance) {
-            return;
-        }
+    recognitionStarting = false;
+    recognitionStopping = false;
 
-        ttsUtterance = null;
+    resetMicUI();
 
-        updateSpeakButton(false);
-    };
+    // Không lấy kết quả tạm làm bản dịch.
+    // Chỉ sử dụng kết quả cuối cùng.
+    const recognized = sessionFinal.trim();
 
-    utterance.onerror = () => {
+    if (!recognized) {
+      target.value = sourceText;
 
-        if (ttsUtterance !== utterance) {
-            return;
-        }
+      updateStats();
 
-        ttsUtterance = null;
+      if (!sessionError) {
+        setStatus('Chưa nhận được câu hoàn chỉnh');
+      }
 
-        updateSpeakButton(false);
-    };
-
-    speechSynthesis.speak(utterance);
-});
-
-// ==================================================
-// DARK / LIGHT MODE
-// ==================================================
-
-function updateThemeIcon() {
-
-    const dark =
-        document.body.classList.contains(
-            'dark-mode'
+      if (automatic) {
+        showToast(
+          'Nếu khách đã nói, bấm Speak English để thử lại.'
         );
+      }
 
-    btnTheme.innerHTML = dark
-        ? '<i class="fas fa-sun"></i>'
-        : '<i class="fas fa-moon"></i>';
+      return;
+    }
+
+    // Ghi nhận một lần, không nhân đôi
+    // các từ đã được nhận dạng.
+    const completeText = capitalizeSentences(
+      appendText(sourceText,recognized)
+    );
+
+    // Với hội thoại bán hàng, giữ lại
+    // nội dung vừa nhận dạng trong ô nguồn.
+    target.value = completeText;
+
+    saveTexts();
+
+    setStatus('Đã nhận dạng · Đang dịch...','working');
+
+    // Dịch từ chính ngôn ngữ vừa nghe.
+    await translateDirection(
+      language,
+      completeText
+    );
+  };
+
+  // --------------------------------------
+  // OPEN MICRO
+  // --------------------------------------
+
+  try {
+    setStatus(
+      automatic
+        ? 'Đang tự bật micro tiếng Anh...'
+        : 'Đang mở micro...',
+      'working'
+    );
+
+    session.start();
+
+  } catch(error) {
+    if (token !== recognitionToken) return;
+
+    recognition = null;
+    activeLanguage = null;
+
+    recognitionStarting = false;
+
+    resetMicUI();
+
+    setStatus('Không mở được micro','error');
+
+    showToast(
+      automatic
+        ? 'iPhone có thể yêu cầu bấm Speak English.'
+        : 'Không mở được micro. Hãy thử lại.'
+    );
+  }
 }
 
-btnTheme.addEventListener('click', () => {
+// ========================================
+// BUTTON: VIETNAMESE
+// ========================================
 
-    document.body.classList.toggle('dark-mode');
+viMic.onclick = () => {
+  if (activeLanguage === 'vi') {
+    stopRecognitionGracefully();
+    return;
+  }
 
-    updateThemeIcon();
+  stopRecognitionImmediately();
+  cancelSpeaker();
 
-    const theme =
-        document.body.classList.contains(
-            'dark-mode'
-        )
-            ? 'dark'
-            : 'light';
+  startRecognition('vi',false);
+};
 
-    try {
+// ========================================
+// BUTTON: ENGLISH
+// ========================================
 
-        localStorage.setItem(
-            STORAGE_THEME,
-            theme
-        );
+enMic.onclick = () => {
+  if (activeLanguage === 'en') {
+    stopRecognitionGracefully();
+    return;
+  }
 
-    } catch (error) {}
-});
+  stopRecognitionImmediately();
+  cancelSpeaker();
 
-// ==================================================
-// RESTORE SAVED DATA
-// ==================================================
+  startRecognition('en',false);
+};
 
-function loadSavedData() {
+// ========================================
+// FONT SIZE
+// ========================================
 
-    try {
+function applyFontSize() {
+  viText.style.fontSize = fontSize + 'px';
+  enText.style.fontSize = fontSize + 'px';
 
-        const savedText =
-            localStorage.getItem(STORAGE_TEXT);
-
-        if (savedText !== null) {
-
-            resultText.value = savedText;
-
-            baseText = savedText;
-        }
-
-        const savedTheme =
-            localStorage.getItem(STORAGE_THEME);
-
-        if (savedTheme === 'dark') {
-
-            document.body.classList.add(
-                'dark-mode'
-            );
-        }
-
-        const savedLanguage =
-            localStorage.getItem(STORAGE_LANGUAGE);
-
-        if (
-            savedLanguage === 'vi-VN' ||
-            savedLanguage === 'en-US'
-        ) {
-
-            currentLanguage = savedLanguage;
-        }
-
-    } catch (error) {
-
-        console.warn(
-            'Không đọc được dữ liệu đã lưu:',
-            error
-        );
-    }
-
-    updateThemeIcon();
-
-    selectLanguage(currentLanguage);
-
-    updateStats();
+  safeSave(STORAGE.font,String(fontSize));
 }
 
-// ==================================================
-// BROWSER COMPATIBILITY
-// ==================================================
+$('fontUp').onclick = () => {
+  fontSize = Math.min(36,fontSize+2);
+  applyFontSize();
+};
 
-function checkBrowserSupport() {
+$('fontDown').onclick = () => {
+  fontSize = Math.max(16,fontSize-2);
+  applyFontSize();
+};
 
-    if (!SpeechRecognition) {
+// ========================================
+// THEME
+// ========================================
 
-        btnStart.disabled = true;
+$('theme').onclick = () => {
+  document.body.classList.toggle('dark');
 
-        setStatus(
-            'Không hỗ trợ micro',
-            'error'
-        );
+  safeSave(
+    STORAGE.theme,
+    document.body.classList.contains('dark')
+      ? 'dark'
+      : 'light'
+  );
+};
 
-        return;
-    }
-
-    // Micro cần quyền truy cập và thường cần HTTPS.
-    // Web Speech API có thể dùng dịch vụ trực tuyến.
-
-    if (!window.isSecureContext) {
-
-        setStatus(
-            'Cần kết nối HTTPS',
-            'error'
-        );
-
-        return;
-    }
-
-    setStatus('Sẵn sàng');
-}
-
-// ==================================================
-// PAGE LIFECYCLE
-// ==================================================
-
-window.addEventListener('pagehide', () => {
-
-    wantsRecording = false;
-
-    clearTimeout(restartTimer);
-
-    recognitionGeneration++;
-
-    if (recognition) {
-
-        try {
-            recognition.abort();
-        } catch (error) {}
-    }
-
-    if ('speechSynthesis' in window) {
-
-        speechSynthesis.cancel();
-    }
-});
-
-// ==================================================
+// ========================================
 // INITIALIZATION
-// ==================================================
+// ========================================
 
-loadSavedData();
+function initialize() {
+  viText.value = safeRead(STORAGE.vi) || '';
+  enText.value = safeRead(STORAGE.en) || '';
 
-checkBrowserSupport();
+  const savedFont = Number(
+    safeRead(STORAGE.font)
+  );
 
-updateMicrophoneButton(false);
+  if (
+    Number.isFinite(savedFont) &&
+    savedFont >= 16 &&
+    savedFont <= 36
+  ) {
+    fontSize = savedFont;
+  }
 
-updateSpeakButton(false);
+  if (safeRead(STORAGE.theme) === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  applyFontSize();
+  updateStats();
+  resetMicUI();
+
+  if (!SpeechRecognition) {
+    setStatus(
+      'Trình duyệt không hỗ trợ nhận dạng',
+      'error'
+    );
+
+    viMic.disabled = true;
+    enMic.disabled = true;
+
+    return;
+  }
+
+  if (!window.isSecureContext) {
+    setStatus('Cần HTTPS để sử dụng micro','error');
+    return;
+  }
+
+  setStatus('Sẵn sàng');
+}
+
+initialize();
+
+// ========================================
+// PAGE LIFECYCLE
+// ========================================
+
+window.addEventListener('pagehide',() => {
+  stopRecognitionImmediately();
+  cancelSpeaker();
+  invalidateTranslation();
+  saveTexts();
+});
 
 </script>
-
 </body>
 </html>
