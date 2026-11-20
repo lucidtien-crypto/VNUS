@@ -1,11 +1,1942 @@
-<!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f7f8fa"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><title>VoiceNote · Việt / Mỹ</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><style>
-:root{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#263244;background:#f7f8fa;font-synthesis:none}*{box-sizing:border-box}body{margin:0;padding:max(14px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));min-height:100svh}.app{max-width:780px;margin:auto;display:grid;gap:10px}button,textarea{font:inherit}button{touch-action:manipulation;cursor:pointer}button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #0d9488;outline-offset:2px}button:disabled{opacity:.45;cursor:not-allowed}.header{display:flex;align-items:center;gap:6px;min-width:0}.title{font-size:clamp(15px,3.8vw,22px);font-weight:750;letter-spacing:-.5px;white-space:nowrap;margin:0;flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.mini{height:38px;min-width:37px;flex-shrink:0;padding:0 9px;background:#fff;border:1px solid #dbe1e8;border-radius:9px;color:#263244;font-size:18px;font-weight:650}.status{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:65px;font-size:12px;color:#657185;white-space:nowrap}.dot{height:7px;width:7px;flex-shrink:0;border-radius:50%;background:#16a34a;animation:pulse 2.8s ease-in-out infinite}.dot.busy{background:#ef4444}.dot.warn{background:#d97706}.dot.off{background:#64748b}@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}.flagrow{display:flex;align-items:center;gap:8px}.lang{border:1px solid #dbe1e8;background:white;border-radius:10px;min-height:45px;flex:1;font-weight:650;color:#263244;font-size:15px}.lang.flag{flex:none;width:45px;min-width:45px;height:58px;font-size:24px;padding:0}.lang[aria-pressed="true"]{background:#e5f7f0;border:2px solid #059669;color:#047857}.editwrap{position:relative}.text{width:100%;height:clamp(260px,47svh,540px);min-height:220px;resize:vertical;padding:16px;border:2px solid #dce3ec;border-radius:15px;background:white;color:#1f2937;font-size:22px;line-height:1.62;box-shadow:0 5px 25px #1524380c}.text:focus{border-color:#059669;outline:none}.text.recording{border-color:#059669;box-shadow:0 0 0 3px #05966917}.toolbar{display:flex;gap:7px}.mainbtn{border:0;border-radius:12px;min-height:58px;display:flex;justify-content:center;align-items:center;gap:10px;font-size:16px;font-weight:700;padding:10px}.speaker{width:52px;flex:none;background:#fff;color:#263244;border:1px solid #dce3ec;font-size:23px}.record{flex:1;background:#078665;color:white}.record.stop{background:#c63838}.editrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.editbtn{border:1px solid #dce3ec;background:#fff;color:#273343;border-radius:11px;min-height:56px;padding:5px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1px}.editbtn .symbol{font-size:21px;line-height:1.2}.editbtn small{font-size:12px;font-weight:650}.editbtn.danger{color:#b91c1c}.editbtn.copy{background:#e9f2ff;color:#1d4ed8}.setup{border:1px solid #e0e6ec;border-radius:13px;background:white;padding:12px;display:grid;gap:10px}.setuphead{display:flex;justify-content:space-between;align-items:center;gap:8px}.setuphead strong{font-size:15px}.tag{font-size:12px;color:#526377;border-radius:100px;padding:4px 8px;background:#eef2f6}.desc{font-size:13px;color:#5d6776;line-height:1.5;margin:0}.modelbuttons{display:flex;gap:7px;flex-wrap:wrap}.secondary{background:#edf4f1;border:1px solid #a6d4c2;border-radius:9px;color:#096747;padding:10px 12px;font-weight:700;min-height:42px}.outline{background:white;border:1px solid #d1d8e3;border-radius:9px;color:#354255;padding:10px 12px;font-weight:650;min-height:42px}.progressrow{display:none;align-items:center;gap:8px}.progressrow.visible{display:flex}.progressrow progress{flex:1;height:13px;accent-color:#059669}.progressrow span{min-width:48px;text-align:right;font-size:12px}.footer{font-size:12px;color:#697689;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:1px 4px}.notice{background:#fff6e6;color:#815005;border:1px solid #f5deb1;padding:9px 11px;border-radius:9px;font-size:13px;display:none}.notice.visible{display:block}.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,20px);opacity:0;transition:.2s;z-index:30;max-width:92vw;text-align:center;background:#1e293b;color:white;padding:12px 16px;border-radius:12px;pointer-events:none;font-size:14px}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:420px){.app{gap:9px}.title{font-size:16px}.mini{min-width:35px;height:37px;padding:0 7px}.status{font-size:11px;min-width:55px}.text{font-size:20px;height:42svh}.modelbuttons button{flex:1}.lang.flag{width:42px;min-width:42px}.speaker{width:47px}.mainbtn{font-size:14px}.editbtn small{font-size:11px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}body.dark{background:#111827;color:#eef2f7}body.dark .mini,body.dark .lang,body.dark .text,body.dark .editbtn,body.dark .setup,body.dark .speaker,body.dark .outline{background:#1f2937;color:#f3f4f6;border-color:#465365}body.dark .lang.flag{flex:none;width:45px;min-width:45px;height:58px;font-size:24px;padding:0}.lang[aria-pressed="true"]{background:#134e3d;border-color:#10b981}body.dark .desc,body.dark .footer,body.dark .status{color:#a9b7c8}body.dark .tag{background:#334155;color:#e2e8f0}body.dark .secondary{background:#135e49;color:#d1fae5}body.dark .editbtn.copy{background:#1e3a5f;color:#bfdbfe}
-</style></head><body><main class="app">
-<header class="header"><h1 class="title">VoiceNote · Việt / Mỹ</h1><button id="period" class="mini" aria-label="Chèn dấu chấm" title="Dấu chấm">.</button><button id="comma" class="mini" aria-label="Chèn dấu phẩy" title="Dấu phẩy">,</button><div class="status" role="status"><span id="dot" class="dot"></span><span id="state">Sẵn sàng</span></div></header>
-<div class="editwrap"><textarea id="editor" class="text" spellcheck="true" placeholder="Văn bản sẽ xuất hiện ở đây…" aria-label="Văn bản nhận dạng và soạn thảo"></textarea></div>
-<div class="toolbar"><button id="speak" class="mainbtn speaker" aria-label="Phát lại văn bản" title="Phát lại văn bản">🔊</button><button class="lang flag" id="vi" aria-label="Nhận diện tiếng Việt" title="Tiếng Việt" aria-pressed="true">🇻🇳</button><button class="lang flag" id="en" aria-label="Nhận diện tiếng Anh Mỹ" title="English (US)" aria-pressed="false">🇺🇸</button><button id="record" class="mainbtn record"><span id="recIcon">🎙</span><span id="recText">Bắt đầu nói</span></button></div>
-<div class="editrow"><button id="delWord" class="editbtn" title="Xóa từ cuối"><span class="symbol" aria-hidden="true">🗑</span><small>1 từ</small></button><button id="clear" class="editbtn danger" title="Xóa toàn bộ"><span class="symbol" aria-hidden="true">🗑</span><small>Tất cả</small></button><button id="undo" class="editbtn" title="Hoàn tác"><span class="symbol">↶</span><small>Phục hồi</small></button><button id="copy" class="editbtn copy" title="Sao chép"><span class="symbol">▢</span><small>Sao chép</small></button></div>
-<section class="setup" aria-label="Nhận dạng ngoại tuyến"><div class="setuphead"><strong>Nhận dạng offline</strong><span id="modelTag" class="tag">Chưa kiểm tra</span></div><p class="desc" id="modelInfo">Dùng chung một mô hình Whisper nhỏ cho cả tiếng Việt và tiếng Anh Mỹ. Tải một lần bằng Wi-Fi; các lần sau ứng dụng thử dùng tài nguyên đã lưu.</p><div class="modelbuttons"><button id="download" class="secondary">⬇ Tải bộ nhận dạng</button><button id="check" class="outline">Kiểm tra đã tải</button><button id="update" class="outline">↻ Kiểm tra cập nhật</button></div><div id="progressrow" class="progressrow"><progress id="progress" max="100" value="0"></progress><span id="percent">0%</span></div><p id="notice" class="notice"></p></section>
-<div class="footer"><span id="counts">0 từ · 0 ký tự</span><span><button class="outline" id="theme" style="min-height:30px;padding:4px 9px;font-size:12px">◐ Sáng/tối</button></span></div>
-</main><div id="toast" class="toast" role="status" aria-live="polite"></div><script src="./app.js" defer></script></body></html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF9F5">
+<title>Speech to Text Editor</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --bg: #FBF9F5;
+    --card: #FFFFFF;
+    --text: #1F2937;
+    --muted: #64748B;
+    --border: #D9DEE6;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --red: #DC2626;
+    --blue: #2563EB;
+    --shadow: 0 3px 14px rgba(0,0,0,.05);
+}
+
+body.dark-mode {
+    --bg: #121316;
+    --card: #1E2025;
+    --text: #F3F4F6;
+    --muted: #B3BDCB;
+    --border: #424752;
+    --green-light: #0D2419;
+    --shadow: 0 3px 14px rgba(0,0,0,.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 14px 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system,
+                 "Segoe UI", Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 45px;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(17px, 2.8vw, 24px);
+    font-weight: 700;
+    letter-spacing: -.4px;
+}
+
+.mini {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 19px;
+    font-weight: 700;
+    touch-action: manipulation;
+}
+
+.mini:active {
+    transform: scale(.96);
+}
+
+.punctuation {
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+}
+
+/* STATUS */
+
+.status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+.status-dot.active {
+    background: var(--red);
+    animation-duration: 1.2s;
+}
+
+.status-dot.error {
+    background: var(--red);
+    animation: none;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: .45;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* EDITOR */
+
+.editor {
+    width: 100%;
+    min-height: 300px;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 24px;
+    line-height: 1.65;
+    resize: vertical;
+    outline: none;
+    box-shadow: var(--shadow);
+    white-space: pre-wrap;
+}
+
+.editor:focus {
+    border-color: var(--green);
+}
+
+.editor.recording {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(5,150,105,.15);
+}
+
+.editor::placeholder {
+    color: var(--muted);
+    opacity: .8;
+}
+
+/* STATISTICS */
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+.font-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.font-controls button {
+    width: 38px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* MAIN CONTROLS */
+
+.controls-main {
+    display: grid;
+    grid-template-columns: 54px 46px 46px minmax(0,1fr);
+    gap: 7px;
+}
+
+.action {
+    min-height: 58px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--card);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 5px;
+    touch-action: manipulation;
+}
+
+.action:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.action:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.btn-speak {
+    font-size: 21px;
+}
+
+.btn-language {
+    font-size: 25px;
+    padding: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    transition: border-color .15s, background .15s;
+}
+
+.btn-language.selected {
+    border: 2px solid var(--green);
+    background: var(--green-light);
+}
+
+.btn-start {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+    font-size: clamp(14px, 2.5vw, 19px);
+    font-weight: 700;
+}
+
+.btn-start.listening {
+    background: var(--red);
+    border-color: var(--red);
+}
+
+/* EDIT CONTROLS */
+
+.controls-edit {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 8px;
+}
+
+.edit-button {
+    min-height: 57px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 18px;
+}
+
+.edit-button span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-clear {
+    color: var(--red);
+}
+
+.btn-copy {
+    color: var(--blue);
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    max-width: 90vw;
+    background: #1F2937;
+    color: white;
+    padding: 11px 18px;
+    border-radius: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+    font-size: 14px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: .2s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* MOBILE */
+
+@media(max-width: 520px) {
+    body {
+        padding: 9px 8px;
+    }
+
+    .container {
+        gap: 8px;
+    }
+
+    header {
+        gap: 5px;
+    }
+
+    .heading {
+        gap: 5px;
+    }
+
+    h1 {
+        font-size: 16px;
+    }
+
+    .mini {
+        width: 35px;
+        height: 37px;
+    }
+
+    .status {
+        font-size: 11px;
+    }
+
+    .editor {
+        min-height: 260px;
+        font-size: 21px;
+        padding: 12px;
+    }
+
+    .controls-main {
+        grid-template-columns: 49px 43px 43px minmax(0,1fr);
+        gap: 5px;
+    }
+
+    .action {
+        min-height: 56px;
+    }
+
+    .btn-language {
+        font-size: 23px;
+    }
+
+    .btn-start {
+        font-size: 14px;
+        gap: 5px;
+    }
+
+    .controls-edit {
+        gap: 5px;
+    }
+
+    .edit-button span {
+        font-size: 11px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .status-dot {
+        animation: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <header>
+        <div class="heading">
+
+            <h1>Speech to Text Editor</h1>
+
+            <button
+                class="mini punctuation"
+                id="btnPeriod"
+                title="Dấu chấm"
+                aria-label="Chèn dấu chấm">
+                .
+            </button>
+
+            <button
+                class="mini punctuation"
+                id="btnComma"
+                title="Dấu phẩy"
+                aria-label="Chèn dấu phẩy">
+                ,
+            </button>
+
+            <button
+                class="mini"
+                id="btnTheme"
+                title="Chuyển sáng/tối"
+                aria-label="Chuyển chế độ sáng tối">
+                <i class="fas fa-moon"></i>
+            </button>
+
+        </div>
+
+        <div class="status" role="status">
+            <div id="statusDot" class="status-dot"></div>
+            <span id="statusText">Sẵn sàng</span>
+        </div>
+    </header>
+
+    <!-- TEXT EDITOR -->
+
+    <textarea
+        id="resultText"
+        class="editor"
+        placeholder="Văn bản sẽ xuất hiện ở đây khi bạn nói..."
+        spellcheck="true"
+        aria-label="Văn bản nhận dạng">
+    </textarea>
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <span id="wordStats">
+            0 từ | 0 ký tự
+        </span>
+
+        <div class="font-controls">
+            <span>Cỡ chữ:</span>
+
+            <button id="fontDown" aria-label="Giảm cỡ chữ">
+                A−
+            </button>
+
+            <button id="fontUp" aria-label="Tăng cỡ chữ">
+                A+
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTROLS -->
+
+    <div class="controls-main">
+
+        <button
+            id="btnSpeak"
+            class="action btn-speak"
+            title="Phát lại văn bản"
+            aria-label="Phát lại văn bản">
+            <i class="fas fa-volume-up"></i>
+        </button>
+
+        <button
+            id="btnVietnamese"
+            class="action btn-language selected"
+            title="Tiếng Việt"
+            aria-label="Nhận dạng tiếng Việt"
+            aria-pressed="true">
+            🇻🇳
+        </button>
+
+        <button
+            id="btnEnglish"
+            class="action btn-language"
+            title="English (US)"
+            aria-label="Nhận dạng tiếng Anh Mỹ"
+            aria-pressed="false">
+            🇺🇸
+        </button>
+
+        <button
+            id="btnStart"
+            class="action btn-start">
+            <i class="fas fa-microphone"></i>
+            <span>Bắt đầu nói</span>
+        </button>
+
+    </div>
+
+    <!-- EDITING CONTROLS -->
+
+    <div class="controls-edit">
+
+        <button
+            id="btnDeleteWord"
+            class="action edit-button"
+            title="Xóa một từ cuối">
+            <i class="fas fa-trash-alt"></i>
+            <span>1 từ</span>
+        </button>
+
+        <button
+            id="btnClearAll"
+            class="action edit-button btn-clear"
+            title="Xóa toàn bộ văn bản">
+            <i class="fas fa-trash-alt"></i>
+            <span>Tất cả</span>
+        </button>
+
+        <button
+            id="btnUndo"
+            class="action edit-button"
+            title="Phục hồi"
+            disabled>
+            <i class="fas fa-undo"></i>
+            <span>Phục hồi</span>
+        </button>
+
+        <button
+            id="btnCopy"
+            class="action edit-button btn-copy"
+            title="Sao chép toàn bộ">
+            <i class="fas fa-copy"></i>
+            <span>Sao chép</span>
+        </button>
+
+    </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+'use strict';
+
+/*
+ * SPEECH TO TEXT EDITOR
+ *
+ * Ngôn ngữ:
+ * - vi-VN: Tiếng Việt
+ * - en-US: Tiếng Anh Mỹ
+ *
+ * Nhận dạng bằng Web Speech API,
+ * giống nền tảng của phiên bản cũ.
+ *
+ * Không tải Whisper, không tải mô hình AI riêng.
+ *
+ * Lưu ý:
+ * Nhận dạng thường cần Internet,
+ * tùy trình duyệt và dịch vụ của trình duyệt.
+ */
+
+// ==================================================
+// DOM ELEMENTS
+// ==================================================
+
+const $ = id => document.getElementById(id);
+
+const resultText = $('resultText');
+
+const btnStart = $('btnStart');
+const btnSpeak = $('btnSpeak');
+
+const btnVietnamese = $('btnVietnamese');
+const btnEnglish = $('btnEnglish');
+
+const btnPeriod = $('btnPeriod');
+const btnComma = $('btnComma');
+
+const btnDeleteWord = $('btnDeleteWord');
+const btnClearAll = $('btnClearAll');
+const btnUndo = $('btnUndo');
+const btnCopy = $('btnCopy');
+
+const btnTheme = $('btnTheme');
+
+const statusText = $('statusText');
+const statusDot = $('statusDot');
+
+const wordStats = $('wordStats');
+
+const toast = $('toast');
+
+// ==================================================
+// APP STATE
+// ==================================================
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+
+let currentLanguage = 'vi-VN';
+
+let wantsRecording = false;
+let recognitionActive = false;
+
+let baseText = '';
+let currentSessionFinal = '';
+
+let recognitionGeneration = 0;
+let restartTimer = null;
+
+let currentFontSize = 24;
+
+let undoHistory = [];
+
+let lastSelection = {
+    start: 0,
+    end: 0
+};
+
+let toastTimer = null;
+
+let ttsUtterance = null;
+
+const STORAGE_TEXT = 'speechEditorVIUS_text';
+const STORAGE_THEME = 'speechEditorVIUS_theme';
+const STORAGE_LANGUAGE = 'speechEditorVIUS_language';
+
+// ==================================================
+// TOAST
+// ==================================================
+
+function showToast(message) {
+
+    toast.textContent = message;
+
+    toast.classList.add('show');
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2500);
+}
+
+// ==================================================
+// STATUS
+// ==================================================
+
+function setStatus(message, type = 'ready') {
+
+    statusText.textContent = message;
+
+    statusDot.className = 'status-dot';
+
+    if (type === 'active') {
+        statusDot.classList.add('active');
+    }
+
+    if (type === 'error') {
+        statusDot.classList.add('error');
+    }
+}
+
+// ==================================================
+// STATISTICS
+// ==================================================
+
+function updateStats() {
+
+    const text = resultText.value.trim();
+
+    const words = text
+        ? text.split(/\s+/u).length
+        : 0;
+
+    const characters = resultText.value.length;
+
+    wordStats.textContent =
+        `${words} từ | ${characters} ký tự`;
+}
+
+// ==================================================
+// LOCAL STORAGE
+// ==================================================
+
+function saveDraft() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_TEXT,
+            resultText.value
+        );
+
+    } catch (error) {
+        console.warn('Không thể lưu văn bản:', error);
+    }
+
+    updateStats();
+}
+
+// ==================================================
+// UNDO HISTORY
+// ==================================================
+
+function saveUndoState() {
+
+    undoHistory.push({
+        text: resultText.value,
+        start: resultText.selectionStart,
+        end: resultText.selectionEnd
+    });
+
+    if (undoHistory.length > 40) {
+        undoHistory.shift();
+    }
+
+    btnUndo.disabled = false;
+}
+
+// ==================================================
+// SET EDITOR TEXT
+// ==================================================
+
+function setEditorText(text) {
+
+    resultText.value = text;
+
+    baseText = text;
+
+    saveDraft();
+}
+
+// ==================================================
+// TEXT JOINING
+// ==================================================
+
+function appendText(original, added) {
+
+    const addition = added.trim();
+
+    if (!addition) {
+        return original;
+    }
+
+    if (!original) {
+        return addition;
+    }
+
+    const separator = /\s$/u.test(original)
+        ? ''
+        : ' ';
+
+    return original + separator + addition;
+}
+
+// ==================================================
+// LIGHT CAPITALIZATION
+// ==================================================
+
+function autoCapitalize(text) {
+
+    if (!text) {
+        return text;
+    }
+
+    return text.replace(
+        /(^|[.!?]\s+|\n\s*)([a-zà-ỹ])/giu,
+        function(match, prefix, letter) {
+
+            return prefix + letter.toUpperCase();
+
+        }
+    );
+}
+
+// ==================================================
+// LANGUAGE SELECTION
+// ==================================================
+
+function selectLanguage(language) {
+
+    if (wantsRecording || recognitionActive) {
+        stopRecognition();
+    }
+
+    currentLanguage = language;
+
+    const isVietnamese = language === 'vi-VN';
+
+    btnVietnamese.classList.toggle(
+        'selected',
+        isVietnamese
+    );
+
+    btnEnglish.classList.toggle(
+        'selected',
+        !isVietnamese
+    );
+
+    btnVietnamese.setAttribute(
+        'aria-pressed',
+        String(isVietnamese)
+    );
+
+    btnEnglish.setAttribute(
+        'aria-pressed',
+        String(!isVietnamese)
+    );
+
+    resultText.placeholder = isVietnamese
+        ? 'Văn bản sẽ xuất hiện ở đây khi bạn nói...'
+        : 'Your speech will appear here...';
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_LANGUAGE,
+            currentLanguage
+        );
+
+    } catch (error) {}
+
+    if (recognition) {
+        recognition.lang = currentLanguage;
+    }
+
+    setStatus('Sẵn sàng');
+}
+
+// ==================================================
+// LANGUAGE BUTTONS
+// ==================================================
+
+btnVietnamese.addEventListener('click', () => {
+
+    if (currentLanguage === 'vi-VN') {
+        return;
+    }
+
+    selectLanguage('vi-VN');
+
+    showToast('Đã chọn tiếng Việt');
+
+});
+
+btnEnglish.addEventListener('click', () => {
+
+    if (currentLanguage === 'en-US') {
+        return;
+    }
+
+    selectLanguage('en-US');
+
+    showToast('Đã chọn tiếng Anh Mỹ');
+
+});
+
+// ==================================================
+// MICROPHONE BUTTON DISPLAY
+// ==================================================
+
+function updateMicrophoneButton(isListening) {
+
+    btnStart.classList.toggle(
+        'listening',
+        isListening
+    );
+
+    if (isListening) {
+
+        btnStart.innerHTML =
+            '<i class="fas fa-stop"></i>' +
+            '<span>Dừng nói</span>';
+
+    } else {
+
+        btnStart.innerHTML =
+            '<i class="fas fa-microphone"></i>' +
+            '<span>Bắt đầu nói</span>';
+
+    }
+}
+
+// ==================================================
+// SPEECH RECOGNITION
+// ==================================================
+
+function startRecognition() {
+
+    if (!SpeechRecognition) {
+
+        setStatus(
+            'Trình duyệt không hỗ trợ nhận dạng',
+            'error'
+        );
+
+        showToast(
+            'Hãy sử dụng Chrome hoặc trình duyệt tương thích.'
+        );
+
+        return;
+    }
+
+    if (wantsRecording) {
+        return;
+    }
+
+    if (
+        'speechSynthesis' in window &&
+        (
+            speechSynthesis.speaking ||
+            speechSynthesis.pending
+        )
+    ) {
+
+        speechSynthesis.cancel();
+
+        updateSpeakButton(false);
+    }
+
+    wantsRecording = true;
+
+    baseText = resultText.value;
+
+    currentSessionFinal = '';
+
+    updateMicrophoneButton(true);
+
+    setStatus('Đang mở micro...', 'active');
+
+    launchRecognitionSession();
+}
+
+// ==================================================
+// START ONE RECOGNITION SESSION
+// ==================================================
+
+function launchRecognitionSession() {
+
+    if (!wantsRecording) {
+        return;
+    }
+
+    if (recognitionActive) {
+        return;
+    }
+
+    clearTimeout(restartTimer);
+
+    const generation = ++recognitionGeneration;
+
+    const session = new SpeechRecognition();
+
+    recognition = session;
+
+    session.lang = currentLanguage;
+
+    // Giữ cơ chế nhận dạng như bản cũ.
+    // Mỗi lượt nhận dạng kết thúc thì tự bắt đầu
+    // lượt tiếp theo khi người dùng chưa bấm dừng.
+
+    session.continuous = false;
+
+    session.interimResults = true;
+
+    session.maxAlternatives = 1;
+
+    let finalTranscript = '';
+
+    let interimTranscript = '';
+
+    let sessionStarted = false;
+
+    let sessionInvalidated = false;
+
+    let sessionError = '';
+
+    // ----------------------------------------------
+    // ON START
+    // ----------------------------------------------
+
+    session.onstart = function() {
+
+        sessionStarted = true;
+
+        recognitionActive = true;
+
+        if (
+            generation !== recognitionGeneration ||
+            !wantsRecording
+        ) {
+
+            sessionInvalidated = true;
+
+            try {
+                session.abort();
+            } catch (error) {}
+
+            return;
+        }
+
+        resultText.classList.add('recording');
+
+        updateMicrophoneButton(true);
+
+        setStatus('Đang nghe...', 'active');
+    };
+
+    // ----------------------------------------------
+    // ON RESULT
+    // ----------------------------------------------
+
+    session.onresult = function(event) {
+
+        if (
+            sessionInvalidated ||
+            generation !== recognitionGeneration
+        ) {
+            return;
+        }
+
+        finalTranscript = '';
+
+        interimTranscript = '';
+
+        // Đọc toàn bộ danh sách kết quả.
+        // Không chỉ đọc resultIndex để tránh
+        // mất chữ khi trình duyệt sửa kết quả tạm.
+
+        for (
+            let i = 0;
+            i < event.results.length;
+            i++
+        ) {
+
+            const result = event.results[i];
+
+            const transcript =
+                result[0].transcript.trim();
+
+            if (!transcript) {
+                continue;
+            }
+
+            if (result.isFinal) {
+
+                finalTranscript = appendText(
+                    finalTranscript,
+                    transcript
+                );
+
+            } else {
+
+                interimTranscript = appendText(
+                    interimTranscript,
+                    transcript
+                );
+            }
+        }
+
+        let visibleText = baseText;
+
+        if (finalTranscript) {
+
+            visibleText = appendText(
+                visibleText,
+                finalTranscript
+            );
+        }
+
+        if (interimTranscript) {
+
+            visibleText = appendText(
+                visibleText,
+                interimTranscript
+            );
+        }
+
+        visibleText = autoCapitalize(visibleText);
+
+        resultText.value = visibleText;
+
+        updateStats();
+
+        resultText.scrollTop =
+            resultText.scrollHeight;
+    };
+
+    // ----------------------------------------------
+    // ON ERROR
+    // ----------------------------------------------
+
+    session.onerror = function(event) {
+
+        if (
+            sessionInvalidated ||
+            generation !== recognitionGeneration
+        ) {
+            return;
+        }
+
+        sessionError = event.error;
+
+        switch (event.error) {
+
+            case 'no-speech':
+
+                // Không có tiếng nói.
+                // Đợi onend rồi nghe tiếp.
+                break;
+
+            case 'not-allowed':
+            case 'service-not-allowed':
+
+                wantsRecording = false;
+
+                setStatus(
+                    'Micro bị từ chối',
+                    'error'
+                );
+
+                showToast(
+                    'Hãy cấp quyền sử dụng micro.'
+                );
+
+                break;
+
+            case 'audio-capture':
+
+                wantsRecording = false;
+
+                setStatus(
+                    'Không tìm thấy micro',
+                    'error'
+                );
+
+                break;
+
+            case 'network':
+
+                wantsRecording = false;
+
+                setStatus(
+                    'Lỗi kết nối nhận dạng',
+                    'error'
+                );
+
+                showToast(
+                    'Nhận dạng giọng nói có thể cần Internet.'
+                );
+
+                break;
+
+            case 'aborted':
+
+                break;
+
+            default:
+
+                wantsRecording = false;
+
+                setStatus(
+                    'Lỗi nhận dạng',
+                    'error'
+                );
+
+                console.warn(
+                    'Speech recognition error:',
+                    event.error
+                );
+        }
+    };
+
+    // ----------------------------------------------
+    // ON END
+    // ----------------------------------------------
+
+    session.onend = function() {
+
+        if (recognition === session) {
+            recognitionActive = false;
+        }
+
+        if (
+            sessionInvalidated ||
+            generation !== recognitionGeneration
+        ) {
+            return;
+        }
+
+        // Chỉ lưu kết quả cuối đã được xác nhận.
+        // Không lưu chữ tạm nhiều lần để tránh
+        // trùng lặp văn bản.
+
+        if (finalTranscript.trim()) {
+
+            const newText = autoCapitalize(
+                appendText(
+                    baseText,
+                    finalTranscript
+                )
+            );
+
+            setEditorText(newText);
+
+        } else {
+
+            // Nếu đoạn chỉ có kết quả tạm,
+            // trả về bản văn bản đã xác nhận.
+
+            resultText.value = baseText;
+
+            updateStats();
+        }
+
+        finalTranscript = '';
+
+        interimTranscript = '';
+
+        resultText.classList.remove('recording');
+
+        if (wantsRecording) {
+
+            setStatus(
+                'Đang chờ bạn nói...',
+                'active'
+            );
+
+            // Khởi động lượt mới sau khi lượt cũ
+            // đã kết thúc hoàn toàn.
+
+            restartTimer = setTimeout(() => {
+
+                if (
+                    wantsRecording &&
+                    generation === recognitionGeneration
+                ) {
+
+                    launchRecognitionSession();
+                }
+
+            }, 180);
+
+        } else {
+
+            if (!sessionError) {
+                setStatus('Sẵn sàng');
+            }
+
+            updateMicrophoneButton(false);
+        }
+    };
+
+    // ----------------------------------------------
+    // ACTIVATE
+    // ----------------------------------------------
+
+    try {
+
+        session.start();
+
+    } catch (error) {
+
+        recognitionActive = false;
+
+        wantsRecording = false;
+
+        updateMicrophoneButton(false);
+
+        setStatus(
+            'Không thể khởi động micro',
+            'error'
+        );
+
+        console.error(error);
+    }
+}
+
+// ==================================================
+// STOP RECOGNITION
+// ==================================================
+
+function stopRecognition() {
+
+    wantsRecording = false;
+
+    clearTimeout(restartTimer);
+
+    if (recognition && recognitionActive) {
+
+        try {
+
+            // stop() cố giữ kết quả cuối.
+            // abort() sẽ bỏ kết quả chưa xác nhận.
+
+            recognition.stop();
+
+            setStatus('Đang dừng...', 'active');
+
+        } catch (error) {
+
+            recognitionActive = false;
+
+            updateMicrophoneButton(false);
+
+            setStatus('Sẵn sàng');
+        }
+
+    } else {
+
+        updateMicrophoneButton(false);
+
+        resultText.classList.remove('recording');
+
+        setStatus('Sẵn sàng');
+    }
+}
+
+// ==================================================
+// CANCEL SESSION FOR MANUAL EDITING
+// ==================================================
+
+function cancelRecognitionForEdit() {
+
+    if (!wantsRecording && !recognitionActive) {
+        return;
+    }
+
+    wantsRecording = false;
+
+    clearTimeout(restartTimer);
+
+    // Vô hiệu hóa callback cũ để chúng không
+    // ghi đè lên văn bản vừa chỉnh sửa.
+
+    recognitionGeneration++;
+
+    if (recognition) {
+
+        try {
+            recognition.abort();
+        } catch (error) {}
+    }
+
+    recognitionActive = false;
+
+    baseText = resultText.value;
+
+    resultText.classList.remove('recording');
+
+    updateMicrophoneButton(false);
+
+    setStatus('Sẵn sàng');
+}
+
+// ==================================================
+// MICROPHONE BUTTON
+// ==================================================
+
+btnStart.addEventListener('click', () => {
+
+    if (wantsRecording) {
+
+        stopRecognition();
+
+    } else {
+
+        if (recognitionActive) {
+            return;
+        }
+
+        startRecognition();
+    }
+});
+
+// ==================================================
+// PUNCTUATION
+// ==================================================
+
+function insertSymbol(symbol) {
+
+    cancelRecognitionForEdit();
+
+    saveUndoState();
+
+    const text = resultText.value;
+
+    const startPos = resultText.selectionStart;
+
+    const endPos = resultText.selectionEnd;
+
+    const before = text
+        .substring(0, startPos)
+        .replace(/[ \t]+$/u, '');
+
+    const after = text
+        .substring(endPos)
+        .replace(/^[ \t]+/u, '');
+
+    const punctuation = symbol + ' ';
+
+    const newText = autoCapitalize(
+        before + punctuation + after
+    );
+
+    setEditorText(newText);
+
+    const caret = before.length +
+                  punctuation.length;
+
+    resultText.focus();
+
+    resultText.setSelectionRange(caret, caret);
+
+    showToast(
+        symbol === '.'
+            ? 'Đã thêm dấu chấm'
+            : 'Đã thêm dấu phẩy'
+    );
+}
+
+btnPeriod.addEventListener('click', () => {
+    insertSymbol('.');
+});
+
+btnComma.addEventListener('click', () => {
+    insertSymbol(',');
+});
+
+// ==================================================
+// MANUAL TEXT EDITING
+// ==================================================
+
+resultText.addEventListener('input', () => {
+
+    if (wantsRecording || recognitionActive) {
+
+        cancelRecognitionForEdit();
+    }
+
+    baseText = resultText.value;
+
+    saveDraft();
+});
+
+// ==================================================
+// DELETE LAST WORD
+// ==================================================
+
+btnDeleteWord.addEventListener('click', () => {
+
+    cancelRecognitionForEdit();
+
+    let text = resultText.value.trimEnd();
+
+    if (!text) {
+        return;
+    }
+
+    saveUndoState();
+
+    // Xóa từ cuối, kể cả khi có xuống dòng.
+    // Giữ nguyên nội dung phía trước.
+
+    text = text.replace(
+        /\S+$/u,
+        ''
+    );
+
+    text = text.trimEnd();
+
+    setEditorText(text);
+
+    showToast('Đã xóa một từ');
+});
+
+// ==================================================
+// CLEAR ALL
+// ==================================================
+
+btnClearAll.addEventListener('click', () => {
+
+    cancelRecognitionForEdit();
+
+    if (!resultText.value) {
+        return;
+    }
+
+    saveUndoState();
+
+    setEditorText('');
+
+    showToast(
+        'Đã xóa toàn bộ. Có thể phục hồi.'
+    );
+});
+
+// ==================================================
+// UNDO
+// ==================================================
+
+btnUndo.addEventListener('click', () => {
+
+    cancelRecognitionForEdit();
+
+    if (undoHistory.length === 0) {
+        return;
+    }
+
+    const previous = undoHistory.pop();
+
+    setEditorText(previous.text);
+
+    resultText.focus();
+
+    resultText.setSelectionRange(
+        previous.start,
+        previous.end
+    );
+
+    btnUndo.disabled =
+        undoHistory.length === 0;
+
+    showToast('Đã phục hồi văn bản');
+});
+
+// ==================================================
+// COPY TEXT
+// ==================================================
+
+btnCopy.addEventListener('click', async () => {
+
+    const text = resultText.value;
+
+    if (!text.trim()) {
+
+        showToast('Không có văn bản để sao chép');
+
+        return;
+    }
+
+    try {
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(text);
+
+        } else {
+
+            resultText.focus();
+
+            resultText.select();
+
+            const copied =
+                document.execCommand('copy');
+
+            if (!copied) {
+                throw new Error('Copy failed');
+            }
+        }
+
+        showToast('Đã sao chép văn bản');
+
+    } catch (error) {
+
+        showToast(
+            'Không thể sao chép. Hãy chọn văn bản thủ công.'
+        );
+    }
+});
+
+// ==================================================
+// FONT SIZE
+// ==================================================
+
+$('fontUp').addEventListener('click', () => {
+
+    currentFontSize = Math.min(
+        currentFontSize + 2,
+        40
+    );
+
+    resultText.style.fontSize =
+        currentFontSize + 'px';
+});
+
+$('fontDown').addEventListener('click', () => {
+
+    currentFontSize = Math.max(
+        currentFontSize - 2,
+        16
+    );
+
+    resultText.style.fontSize =
+        currentFontSize + 'px';
+});
+
+// ==================================================
+// TEXT TO SPEECH
+// ==================================================
+
+function chooseVoice(language) {
+
+    const voices = speechSynthesis.getVoices();
+
+    const exact = voices.find(voice =>
+        voice.lang.toLowerCase() ===
+        language.toLowerCase()
+    );
+
+    if (exact) {
+        return exact;
+    }
+
+    const prefix = language
+        .split('-')[0]
+        .toLowerCase();
+
+    return voices.find(voice =>
+        voice.lang.toLowerCase().startsWith(prefix)
+    ) || null;
+}
+
+// ==================================================
+// UPDATE SPEAKER BUTTON
+// ==================================================
+
+function updateSpeakButton(speaking) {
+
+    if (speaking) {
+
+        btnSpeak.innerHTML =
+            '<i class="fas fa-stop"></i>';
+
+        btnSpeak.title = 'Dừng phát lại';
+
+        btnSpeak.setAttribute(
+            'aria-label',
+            'Dừng phát lại'
+        );
+
+    } else {
+
+        btnSpeak.innerHTML =
+            '<i class="fas fa-volume-up"></i>';
+
+        btnSpeak.title = 'Phát lại văn bản';
+
+        btnSpeak.setAttribute(
+            'aria-label',
+            'Phát lại văn bản'
+        );
+    }
+}
+
+// ==================================================
+// SPEAKER
+// ==================================================
+
+btnSpeak.addEventListener('click', () => {
+
+    if (!('speechSynthesis' in window)) {
+
+        showToast(
+            'Trình duyệt không hỗ trợ đọc văn bản'
+        );
+
+        return;
+    }
+
+    if (
+        speechSynthesis.speaking ||
+        speechSynthesis.pending
+    ) {
+
+        speechSynthesis.cancel();
+
+        ttsUtterance = null;
+
+        updateSpeakButton(false);
+
+        return;
+    }
+
+    const text = resultText.value.trim();
+
+    if (!text) {
+
+        showToast('Chưa có văn bản để đọc');
+
+        return;
+    }
+
+    if (wantsRecording || recognitionActive) {
+
+        stopRecognition();
+    }
+
+    const utterance =
+        new SpeechSynthesisUtterance(text);
+
+    ttsUtterance = utterance;
+
+    utterance.lang = currentLanguage;
+
+    utterance.rate = 1.0;
+
+    utterance.pitch = 1.0;
+
+    utterance.volume = 1.0;
+
+    const voice = chooseVoice(currentLanguage);
+
+    if (voice) {
+        utterance.voice = voice;
+    }
+
+    utterance.onstart = () => {
+
+        if (ttsUtterance !== utterance) {
+            return;
+        }
+
+        updateSpeakButton(true);
+    };
+
+    utterance.onend = () => {
+
+        if (ttsUtterance !== utterance) {
+            return;
+        }
+
+        ttsUtterance = null;
+
+        updateSpeakButton(false);
+    };
+
+    utterance.onerror = () => {
+
+        if (ttsUtterance !== utterance) {
+            return;
+        }
+
+        ttsUtterance = null;
+
+        updateSpeakButton(false);
+    };
+
+    speechSynthesis.speak(utterance);
+});
+
+// ==================================================
+// DARK / LIGHT MODE
+// ==================================================
+
+function updateThemeIcon() {
+
+    const dark =
+        document.body.classList.contains(
+            'dark-mode'
+        );
+
+    btnTheme.innerHTML = dark
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+}
+
+btnTheme.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark-mode');
+
+    updateThemeIcon();
+
+    const theme =
+        document.body.classList.contains(
+            'dark-mode'
+        )
+            ? 'dark'
+            : 'light';
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_THEME,
+            theme
+        );
+
+    } catch (error) {}
+});
+
+// ==================================================
+// RESTORE SAVED DATA
+// ==================================================
+
+function loadSavedData() {
+
+    try {
+
+        const savedText =
+            localStorage.getItem(STORAGE_TEXT);
+
+        if (savedText !== null) {
+
+            resultText.value = savedText;
+
+            baseText = savedText;
+        }
+
+        const savedTheme =
+            localStorage.getItem(STORAGE_THEME);
+
+        if (savedTheme === 'dark') {
+
+            document.body.classList.add(
+                'dark-mode'
+            );
+        }
+
+        const savedLanguage =
+            localStorage.getItem(STORAGE_LANGUAGE);
+
+        if (
+            savedLanguage === 'vi-VN' ||
+            savedLanguage === 'en-US'
+        ) {
+
+            currentLanguage = savedLanguage;
+        }
+
+    } catch (error) {
+
+        console.warn(
+            'Không đọc được dữ liệu đã lưu:',
+            error
+        );
+    }
+
+    updateThemeIcon();
+
+    selectLanguage(currentLanguage);
+
+    updateStats();
+}
+
+// ==================================================
+// BROWSER COMPATIBILITY
+// ==================================================
+
+function checkBrowserSupport() {
+
+    if (!SpeechRecognition) {
+
+        btnStart.disabled = true;
+
+        setStatus(
+            'Không hỗ trợ micro',
+            'error'
+        );
+
+        return;
+    }
+
+    // Micro cần quyền truy cập và thường cần HTTPS.
+    // Web Speech API có thể dùng dịch vụ trực tuyến.
+
+    if (!window.isSecureContext) {
+
+        setStatus(
+            'Cần kết nối HTTPS',
+            'error'
+        );
+
+        return;
+    }
+
+    setStatus('Sẵn sàng');
+}
+
+// ==================================================
+// PAGE LIFECYCLE
+// ==================================================
+
+window.addEventListener('pagehide', () => {
+
+    wantsRecording = false;
+
+    clearTimeout(restartTimer);
+
+    recognitionGeneration++;
+
+    if (recognition) {
+
+        try {
+            recognition.abort();
+        } catch (error) {}
+    }
+
+    if ('speechSynthesis' in window) {
+
+        speechSynthesis.cancel();
+    }
+});
+
+// ==================================================
+// INITIALIZATION
+// ==================================================
+
+loadSavedData();
+
+checkBrowserSupport();
+
+updateMicrophoneButton(false);
+
+updateSpeakButton(false);
+
+</script>
+
+</body>
+</html>
